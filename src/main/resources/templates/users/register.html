@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="guest_layout :: site-head">
+    <title>Sign Up</title>
+</head>
+
+<body>
+
+<header th:replace="guest_layout :: site-header"/>
+
+<form method="post" action="#" th:action="@{/users/addUser}" th:object="${signUpForm}">
+
+    <p>Required fields are followed by <strong><abbr title="required">*</abbr></strong>.</p>
+
+    <section>
+        <h2>Personal information</h2>
+
+        <p>
+            <label for="fullName">
+                <span>Name: </span>
+                <input type="text" id="fullName" name="fullName" th:field="*{fullName}" required=""/>
+                <strong><abbr title="required">*</abbr></strong>
+            </label>
+        </p>
+
+        <p>
+            <label for="mail">
+                <span>E-mail: </span>
+                <input type="email" id="mail" name="usermail" th:field="*{emailAddress}" required=""/>
+                <strong><abbr title="required">*</abbr></strong>
+            </label>
+        </p>
+    </section>
+
+    <section>
+        <h2>Login information</h2>
+
+        <p>
+            <label for="userName">
+                <span>User Name:</span>
+                <input type="text" id="userName" name="userName" th:field="*{userName}" required=""/>
+                <strong><abbr title="required">*</abbr></strong>
+            </label>
+        </p>
+        <p>
+            <label for="password">
+                <span>Password:</span>
+                <input type="password" id="password" name="password" th:field="*{passWord}" required=""/>
+                <strong><abbr title="required">*</abbr></strong>
+            </label>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <span><input type="submit" value="Submit"/></span>
+        </p>
+
+    </section>
+</form>
+
+<footer th:replace="guest_layout :: site-footer"/>
+
+</body>
+
+</html>

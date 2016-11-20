@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="guest_layout :: site-head">
+    <title>Login</title>
+</head>
+
+<body>
+
+<header th:replace="guest_layout :: site-header"/>
+
+<form method="post" action="#" th:action="@{/users/login}" th:object="${loginForm}">
+
+    <section>
+        <h2>Login information</h2>
+
+        <p>
+            <label for="userName">
+                <span>User Name:</span>
+                <input type="text" id="userName" name="userName" th:field="*{userName}" required=""/>
+                <strong><abbr title="required">*</abbr></strong>
+            </label>
+        </p>
+        <p>
+            <label for="password">
+                <span>Password:</span>
+                <input type="password" id="password" name="password" th:field="*{password}" required=""/>
+                <strong><abbr title="required">*</abbr></strong>
+            </label>
+        </p>
+    </section>
+
+    <section>
+        <p>
+            <span><input type="submit" value="Submit"/></span>
+        </p>
+
+    </section>
+</form>
+
+<footer th:replace="guest_layout :: site-footer"/>
+
+</body>
+
+</html>
