@@ -27,28 +27,28 @@
         </div>
         <p class="content" th:utext="${p.body}">Post content</p>
         <p th:text="'Tags: ' + ${p.tagsAsStr}"></p>
-        <th:block th:if="${!p.comments.isEmpty()}">
-            <h4 th:text="${p.comments.size()} + ' Comments'">Comments</h4>
-            <table border="1" class="fixed" cellpadding="8">
-                <col width="600px"/>
-                <!--<tr>
-                    <td>
-                        <form method="post" th:action="@{/posts/add_comment/}" th:if="${session.SessionId != null}">
-                            <b>Post a Comment</b><br/>
-                            <textarea id="comment_body" name="comment_body" cols="100" rows="5"></textarea><br/>
-                            <input id = "comment_post_id" name = "comment_post_id" hidden="true"  th:value = "${p.id}" />
-                            <input type="submit" value="Submit" style="float: right;"/>
-                        </form>
-                    </td>
-                </tr>-->
-                <tr th:each="c : ${p.comments}">
-                    <td>
-                        <b><span th:text="${c.author}">Commented By</span></b><br/>
-                        <span class="comment_body" th:utext="${c.body}">Comment</span>
-                    </td>
-                </tr>
-            </table>
-        </th:block>
+        <h4 th:text="${p.comments.size()} + ' Comments'">Comments</h4>
+
+
+        <table border="1" class="fixed" cellpadding="8">
+            <col width="600px"/>
+            <!--<tr>
+                <td>
+                    <form method="post" th:action="@{/posts/add_comment/}" th:if="${session.SessionId != null}">
+                        <b>Post a Comment</b><br/>
+                        <textarea id="comment_body" name="comment_body" cols="100" rows="5"></textarea><br/>
+                        <input id = "comment_post_id" name = "comment_post_id" hidden="true"  th:value = "${p.id}" />
+                        <input type="submit" value="Submit" style="float: right;"/>
+                    </form>
+                </td>
+            </tr>-->
+            <tr th:each="c : ${p.comments}">
+                <td>
+                    <b><span th:text="${c.author}">Commented By</span></b><br/>
+                    <span class="comment_body" th:utext="${c.body}">Comment</span>
+                </td>
+            </tr>
+        </table>
         <br/>
     </article>
 </main>

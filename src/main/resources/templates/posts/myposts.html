@@ -26,9 +26,9 @@
         <h4 th:text="${p.comments.size()} + ' Comments'">Comments</h4>
         <table border="1" class="fixed" cellpadding="8">
             <col width="600px"/>
-            <tr>
+            <tr th:if="${session.SessionId != null}">
                 <td>
-                    <form method="post" th:action="@{/posts/add_comment/}" th:if="${session.SessionId != null}">
+                    <form method="post" th:action="@{/posts/add_comment/}">
                         <b>Post a Comment</b><br/>
                         <textarea id="comment_body" name="comment_body" cols="100" rows="5"></textarea><br/>
                         <input id="comment_post_id" name="comment_post_id" hidden="true" th:value="${p.id}"/>

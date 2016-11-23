@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -32,7 +33,11 @@ public class HomePageController {
     }
 
     @RequestMapping("/welcome")
-    public String welcome(Model model) {
+    public String welcome(@SessionAttribute(value = "SessionId", required = false)String sessionId, Model model) {
+        //if SessionId is null redirect to index poage
+        if(sessionId == null){
+            return "redirect:/";
+        }
         //TODO: get popular posts instead of this
         Page<BlogPost> latestPosts = blogPostDAO.getLatestPosts();
         model.addAttribute("latestPosts", latestPosts);
