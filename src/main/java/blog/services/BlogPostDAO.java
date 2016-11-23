@@ -4,6 +4,7 @@ import blog.model.BlogPost;
 import blog.model.BlogPostComment;
 import blog.repositories.BlogPostCustomRepo;
 import blog.repositories.BlogPostRepository;
+import com.fasterxml.jackson.databind.ser.std.CollectionSerializer;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,9 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by srinivas.g on 21/11/16.
@@ -36,14 +35,14 @@ public class BlogPostDAO {
         return blogPosts;
     }
 
-    public Page<BlogPost> getLatest5Posts(){
-        Page<BlogPost> latest5Posts = repository.findAll(new PageRequest(0, 5, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
-        return latest5Posts;
+    public Page<BlogPost> getLatestPosts(){
+        Page<BlogPost> latestPosts = repository.findAll(new PageRequest(0, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
+        return latestPosts;
     }
 
-    public Page<BlogPost> getLatest3Posts(){
-        Page<BlogPost> latest3Posts = repository.findAll(new PageRequest(0, 3, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
-        return latest3Posts;
+    public Page<BlogPost> getPopularPosts(){
+        //TODO: implement this later
+        return null;
     }
 
 
@@ -70,5 +69,31 @@ public class BlogPostDAO {
         //Convert String id to ObjectId
         ObjectId id = new ObjectId(postId);
         repository.pushComment(id, new BlogPostComment(commentBody, author));
+    }
+    
+    public static List<BlogPost> sortByPopularity(Page<BlogPost> blogPosts){
+        //List to hold the popular posts
+
+        //TODO: this logic should be database based, move this from in memory
+        List<BlogPost> sortedBlogPosts = new ArrayList<BlogPost>();
+        for(BlogPost blogPost : blogPosts){
+            sortedBlogPosts.add(blogPost);
+        }
+        Collections.sort(sortedBlogPosts, new Comparator<BlogPost>() {
+            public int compare(BlogPost a, BlogPost b){
+                Integer numCommentsA = a.getComments().size();
+                Integer numCommentsB = b.getComments().size();
+
+                if(numCommentsA == numCommentsB){
+                    //If number of comments are same, return the latest one
+                    return b.getDate().compareTo(a.getDate());
+                }
+                else{
+                    return numCommentsB.compareTo(numCommentsA);
+
+                }
+            }
+        });
+        return sortedBlogPosts;
     }
 }
