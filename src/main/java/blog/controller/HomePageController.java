@@ -20,8 +20,6 @@ import java.util.List;
  */
 @Controller
 public class HomePageController {
-    @Autowired
-    private BlogPostCustomRepo repository;
 
     @Autowired
     private BlogPostDAO blogPostDAO;

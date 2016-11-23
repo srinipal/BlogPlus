@@ -1,8 +1,10 @@
 package blog.services;
 
 import blog.model.BlogPost;
+import blog.model.BlogPostComment;
 import blog.repositories.BlogPostCustomRepo;
 import blog.repositories.BlogPostRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +21,7 @@ import java.util.List;
 @Service
 public class BlogPostDAO {
     @Autowired
-    BlogPostCustomRepo repository;
+    BlogPostRepository repository;
 
     public void createBlogPost(String title, String body, String author, String tags){
         BlogPost blogPost = new BlogPost(title, author, body, extractTags(tags));
@@ -27,7 +29,7 @@ public class BlogPostDAO {
     }
 
     public List<BlogPost> getPostsByAuthor(String userName){
-        List<BlogPost> blogPosts = repository.findByAuthor(userName);
+        List<BlogPost> blogPosts = repository.findByAuthorOrderByDateDesc(userName);
         if(blogPosts == null){
             blogPosts = new ArrayList<BlogPost>();
         }
@@ -44,6 +46,7 @@ public class BlogPostDAO {
         return latest3Posts;
     }
 
+
     // tags the tags string and put it into an array
     private static ArrayList<String> extractTags(String tags) {
 
@@ -54,10 +57,18 @@ public class BlogPostDAO {
         ArrayList<String> tagList = new ArrayList<String>();
         for (String tag : tagArray) {
             if (!tag.equals("") && !tagList.contains(tag)) {
-                tagList.add(tag);
+                tagList.add(tag.toLowerCase());
             }
         }
 
         return tagList;
+    }
+
+
+
+    public void addComment(String postId, String author, String commentBody){
+        //Convert String id to ObjectId
+        ObjectId id = new ObjectId(postId);
+        repository.pushComment(id, new BlogPostComment(commentBody, author));
     }
 }

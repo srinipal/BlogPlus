@@ -5,7 +5,6 @@ package blog.model;
  */
 public class BlogPostComment {
     private String body;
-    private String email;
     private String author;
 
     public String getBody() {
@@ -16,13 +15,6 @@ public class BlogPostComment {
         this.body = body;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getAuthor() {
         return author;
@@ -32,10 +24,9 @@ public class BlogPostComment {
         this.author = author;
     }
 
-    public BlogPostComment(String body, String email, String author) {
+    public BlogPostComment(String body, String author) {
 
         this.body = body;
-        this.email = email;
         this.author = author;
     }
 }

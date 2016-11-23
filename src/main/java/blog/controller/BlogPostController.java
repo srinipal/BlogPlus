@@ -2,8 +2,10 @@ package blog.controller;
 
 import blog.common.exceptions.BlogApplicationEx;
 import blog.model.BlogPost;
+import blog.model.forms.AddCommentForm;
 import blog.model.forms.NewPostForm;
 import blog.repositories.BlogPostCustomRepo;
+import blog.repositories.BlogPostRepository;
 import blog.services.BlogPostDAO;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.naming.Binding;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by srinivas.g on 18/11/16.
@@ -23,7 +28,7 @@ import java.util.List;
 @RequestMapping(value="/posts")
 public class BlogPostController {
     @Autowired
-    private BlogPostCustomRepo repository;
+    private BlogPostRepository repository;
 
     @Autowired
     BlogPostDAO blogPostDAO;
@@ -73,4 +78,16 @@ public class BlogPostController {
         return "posts/myposts";
     }
 
+    @RequestMapping(value="/add_comment", method = RequestMethod.POST)
+    public ModelAndView addComment(@RequestParam Map<String,String> allRequestParams){
+        String userName = (String) httpSession.getAttribute("UserName");
+        if(userName == null){
+            throw new BlogApplicationEx("Comments can be added only by a registered user", HttpStatus.UNAUTHORIZED);
+        }
+
+        String postId = allRequestParams.get("comment_post_id");
+        String commentBody = allRequestParams.get("comment_body");
+        blogPostDAO.addComment(postId, userName, commentBody);
+        return new ModelAndView("redirect:/posts/view/" + postId);
+    }
 }

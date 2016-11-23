@@ -62,9 +62,11 @@ label span{
 }
 
 table{
+background: #eee;
 border-collapse:collapse;
 border-spacing:0;
 }
+
 
 article{
     padding-left: 140px;

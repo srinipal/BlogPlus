@@ -3,8 +3,10 @@ package blog.model;
 /**
  * Created by srinivas.g on 18/11/16.
  */
+import blog.common.CommonUtils;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +18,9 @@ public class BlogPost {
         this.author = author;
         this.body = body;
         this.tags = tags;
+    }
+
+    public BlogPost() {
     }
 
     @Override
@@ -97,6 +102,7 @@ public class BlogPost {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+        this.tagsAsStr = CommonUtils.strListToStr(tags);
     }
 
     public List<BlogPostComment> getComments() {
@@ -115,5 +121,12 @@ public class BlogPost {
     private List<String> tags = new ArrayList<String>();
     private List<BlogPostComment> comments = new ArrayList<BlogPostComment>();
     private Date date = new Date();
+
+    @Transient
+    private String tagsAsStr;
+
+    public String getTagsAsStr() {
+        return CommonUtils.strListToStr(tags);
+    }
 
 }
