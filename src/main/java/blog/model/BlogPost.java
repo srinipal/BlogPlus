@@ -11,6 +11,13 @@ import java.util.Date;
 import java.util.List;
 
 public class BlogPost {
+    public BlogPost(String title, String author, String body, List<String> tags) {
+        this.title = title;
+        this.author = author;
+        this.body = body;
+        this.tags = tags;
+    }
+
     @Override
     public String toString() {
         return "BlogPost{" +
@@ -21,12 +28,7 @@ public class BlogPost {
                 ", tags=" + tags +
                 ", date=" + date +
                 '}';
-    }
 
-    class Comment{
-        private String body;
-        private String email;
-        private String author;
     }
 
     public String getTitle() {
@@ -88,13 +90,6 @@ public class BlogPost {
         this.author = author;
     }
 
-    public String getPermalink() {
-        return permalink;
-    }
-
-    public void setPermalink(String permalink) {
-        this.permalink = permalink;
-    }
 
     public List<String> getTags() {
         return tags;
@@ -104,11 +99,11 @@ public class BlogPost {
         this.tags = tags;
     }
 
-    public List<Comment> getComments() {
+    public List<BlogPostComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<BlogPostComment> comments) {
         this.comments = comments;
     }
 
@@ -117,9 +112,8 @@ public class BlogPost {
     private String title;
     private String author;
     private String body;
-    private String permalink;
     private List<String> tags = new ArrayList<String>();
-    private List<Comment> comments = new ArrayList<Comment>();
+    private List<BlogPostComment> comments = new ArrayList<BlogPostComment>();
     private Date date = new Date();
 
 }

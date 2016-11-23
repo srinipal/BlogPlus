@@ -1,5 +1,6 @@
 package blog.controller;
 
+import blog.common.exceptions.BlogApplicationEx;
 import blog.model.User;
 import blog.model.forms.LoginForm;
 import blog.model.forms.SignUpForm;
@@ -7,6 +8,7 @@ import blog.repositories.UserRepository;
 import blog.services.SessionDAO;
 import blog.services.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +34,9 @@ public class UserController {
 
     @Autowired
     private SessionDAO sessionDAO;
+
+    @Autowired
+    private HttpSession httpSession;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String signUp(Model model) {
@@ -89,7 +94,11 @@ public class UserController {
     }
 
     @RequestMapping(value="/logout")
-    public String logout(@SessionAttribute("SessionId") String sessionId, HttpSession httpSession){
+    public String logout(HttpSession httpSession){
+        String sessionId = (String)httpSession.getAttribute("SessionId");
+        if(sessionId == null){
+            throw new BlogApplicationEx("No active session to logout", HttpStatus.BAD_REQUEST);
+        }
         //TODO: end the session here
         sessionDAO.endSession(sessionId);
         httpSession.invalidate();

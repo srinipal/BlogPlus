@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="user_layout :: site-head">
+<head th:replace = "user_layout :: site-head">
     <title th:text="${post.title}">View Post</title>
 </head>
 
 <body>
 
-<header th:replace="user_layout :: site-header" />
+<!--optimise this block-->
+<header th:if="${session.SessionId != null}">
+    <th:block th:replace="user_layout :: site-header" />
+</header>
+<header th:if="${session.SessionId == null}">
+    <th:block th:replace="guest_layout :: site-header" />
+</header>
 
 <main id="posts">
     <article>
@@ -17,10 +23,23 @@
             <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">22-May-2016</span>
             <span th:if="${post.author}" th:remove="tag">
         <i>by</i>
-        <span th:text="${post.author}">Svetlin Nakov</span>
+        <span th:text="${post.author}">Test Author</span>
         </span>
         </div>
-        <p class="content" th:utext="${post.body}">Post content</p>
+        <p class="content" th:utext="${post.body}">Test Blog Post content</p>
+        <th:block th:if="${!post.comments.isEmpty()}">
+            <table border="1">
+                <tr>
+                    <th>Comments</th>
+                </tr>
+                <tr th:each="c : ${post.comments}">
+                    <td>
+                        <b><span th:text="${c.author}">Commented By</span></b><br/>
+                        <span class="comment_body" th:utext="${c.body}">Comment</span>
+                    </td>
+                </tr>
+            </table>
+        </th:block>
     </article>
 </main>
 

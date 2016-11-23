@@ -10,14 +10,13 @@
 </head>
 <body>
 <header th:fragment="site-header">
-    <a href="index.html" th:href="@{/welcome}"><img src="../public/img/blog_logo.jpg" th:src="@{/img/blog_logo.jpg}"/></a>
+    <a href="index.html" th:href="@{/welcome}"><img src="../public/img/blog_logo.jpg"
+                                                    th:src="@{/img/blog_logo.jpg}"/></a>
     <a href="index.html" th:href="@{/welcome}">Home</a>
-    <!--<a href="users/login.html" th:href="@{/users/login}">Login</a>
-    <a href="users/register.html" th:href="@{/users/register}">Register</a>-->
-    <a href="posts/index.html" th:href="@{/posts}">Posts</a>
+    <a href="posts/index.html" th:href="@{/posts/myposts}">My Posts</a>
     <a href="posts/create.html" th:href="@{/posts/create}">Create Post</a>
-    <!--<a href="users/index.html" th:href="@{/users}">Users</a>-->
-    <div id="logged-in-info"><span>Hello, <b th:text="${session.UserName}" th:unless="${session == null}">Guest</b></span>
+    <div id="logged-in-info"><span>Hello, <b th:text="${session.UserName}"
+                                             th:unless="${session == null}">Guest</b></span>
         <form method="post" th:action="@{/users/logout}">
             <input type="submit" value="Logout"/>
         </form>

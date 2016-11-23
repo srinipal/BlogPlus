@@ -18,5 +18,6 @@ public interface BlogPostRepository extends MongoRepository<BlogPost, ObjectId> 
     public BlogPost findById(ObjectId id);
     public Page<BlogPost> findAll(Pageable pageable);
 
+    public List<BlogPost> findByAuthor(String userName);
     //public BlogPost findOne();
 }

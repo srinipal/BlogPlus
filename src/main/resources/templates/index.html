@@ -25,6 +25,19 @@
         </span>
         </div>
         <p class="content" th:utext="${p.body}">Post content</p>
+        <th:block th:if="${!p.comments.isEmpty()}">
+            <table border="1">
+                <tr>
+                    <th>Comments</th>
+                </tr>
+                <tr th:each="c : ${p.comments}">
+                    <td>
+                        <b><span th:text="${c.author}">Commented By</span></b><br/>
+                        <span class="comment_body" th:utext="${c.body}">Comment</span>
+                    </td>
+                </tr>
+            </table>
+        </th:block>
     </article>
 </main>
 

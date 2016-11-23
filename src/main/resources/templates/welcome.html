@@ -7,11 +7,12 @@
 
 <body>
 
-<header th:replace="user_layout :: site-header" />
+<header th:replace="user_layout :: site-header"/>
 
 <aside>
     <h2>Recent Posts</h2>
-    <a href="#" th:each="p : ${latest5posts}" th:text="${p.title}" th:href="@{/posts/view/{id}/(id=${p.id})}">Work Begins on HTML5.1</a>
+    <a href="#" th:each="p : ${latest5posts}" th:text="${p.title}" th:href="@{/posts/view/{id}/(id=${p.id})}">Work
+        Begins on HTML5.1</a>
 </aside>
 <main id="posts">
     <article th:each="p : ${latest3posts}">
@@ -25,10 +26,23 @@
         </span>
         </div>
         <p class="content" th:utext="${p.body}">Post content</p>
+        <th:block th:if="${!p.comments.isEmpty()}">
+        <table border="1">
+            <tr>
+                <th>Comments</th>
+            </tr>
+            <tr th:each="c : ${p.comments}">
+                <td>
+                    <b><span th:text="${c.author}">Commented By</span></b><br/>
+                    <span class="comment_body" th:utext="${c.body}">Comment</span>
+                </td>
+            </tr>
+        </table>
+        </th:block>
     </article>
 </main>
 
-<footer th:replace="user_layout :: site-footer" />
+<footer th:replace="user_layout :: site-footer"/>
 </body>
 
 </html>
