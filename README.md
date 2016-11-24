@@ -1,6 +1,6 @@
 # BlogPlus
 
-BlogPlus is a simple and light weight blogging application built using Spring framework, jQuery and MongoDB that provides the following features:
+BlogPlus is a simple and lightweight blogging platform built using Spring framework, jQuery and MongoDB that provides the following features:
 
 - [X] User registration
 - [X] Authentication
