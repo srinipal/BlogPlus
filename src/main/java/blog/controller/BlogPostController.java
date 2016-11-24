@@ -28,8 +28,6 @@ import java.util.Map;
 @Controller
 @RequestMapping(value="/posts")
 public class BlogPostController {
-    @Autowired
-    private BlogPostRepository repository;
 
     @Autowired
     BlogPostDAO blogPostDAO;
@@ -39,8 +37,7 @@ public class BlogPostController {
 
     @RequestMapping("/view/{id}")
     public String view(@PathVariable("id") ObjectId id, Model model) {
-        BlogPost post = repository.findById(id);
-        //repository.save(new BlogPost(2L, "this was inserted from app", "check if this works", null));
+        BlogPost post = blogPostDAO.getBlogPost(id);
         model.addAttribute("post", post);
         return "posts/view";
     }
@@ -91,6 +88,9 @@ public class BlogPostController {
         blogPostDAO.addComment(postId, userName, commentBody);
         return new ModelAndView("redirect:/posts/view/" + postId);
     }
+
+
+
 
     @RequestMapping(value="/upvote/{id}", method = RequestMethod.GET)
     public String upVote(@PathVariable("id") String postId, Model model){

@@ -13,3 +13,9 @@ function downVotePost(post_id){
     var divId = "#" + "post_" + post_id;
     $(divId).load(url);
 }
+
+function addComment(post_id){
+    var divId = "#" + "post_" + post_id;
+    var url = 'posts/add_comment';
+    $(divId).post(url);
+}

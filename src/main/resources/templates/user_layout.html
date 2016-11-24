@@ -10,11 +10,13 @@
 </head>
 <body>
 <header th:fragment="site-header">
-    <a href="index.html" th:href="@{/welcome}"><img src="../public/img/blog_logo.jpg" th:src="@{/img/blog_logo.jpg}"/></a>
+    <a href="index.html" th:href="@{/welcome}"><img src="../public/img/blog_logo.jpg"
+                                                    th:src="@{/img/blog_logo.jpg}"/></a>
     <a href="index.html" th:href="@{/welcome}">Home</a>
     <a href="posts/index.html" th:href="@{/posts/myposts}">My Posts</a>
     <a href="posts/create.html" th:href="@{/posts/create}">Create Post</a>
-    <div id="logged-in-info"><span>Hello, <b th:text="${session.UserName}" th:unless="${session == null}">Guest</b></span>
+    <div id="logged-in-info"><span>Hello, <b th:text="${session.UserName}"
+                                             th:unless="${session == null}">Guest</b></span>
         <form method="post" th:action="@{/users/logout}">
             <input type="submit" value="Logout"/>
         </form>
@@ -23,7 +25,9 @@
 <h1>Welcome</h1>
 <p>Welcome to Blog Plus.</p>
 
-<div th:id = "'post_' + ${post.id}" th:fragment="post">
+<!--id is dynamically constructed and this helps jquery to load the content corresponding to a specific tag only-->
+<!--every post displayed in application follows this standard-->
+<div th:id="'post_' + ${post.id}" th:fragment="post">
     <article>
         <h2 class="title" th:text="${post.title}">Post Title</h2>
         <div class="date">
@@ -36,15 +40,17 @@
         </div>
         <p class="content" th:utext="${post.body}">Test Blog Post content</p>
         <p th:text="'Tags: ' + ${post.tagsAsStr}"></p>
-        <p  th:if="${session.SessionId != null and post.author != session.UserName}">
-            <button id="Like"  name="Like" th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" th:text="'Like | ' + ${post.likes}"/>
-            <button id="Dislike" name="Dislike" th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" th:text="'Dislike | ' + ${post.dislikes}"/>
+        <p th:if="${session.SessionId != null and post.author != session.UserName}">
+            <button id="Like" name="Like" th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'"
+                    th:text="'Like | ' + ${post.likes}"/>
+            <button id="Dislike" name="Dislike" th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'"
+                    th:text="'Dislike | ' + ${post.dislikes}"/>
         </p>
         <div id="comments">
             <h4 th:text="${post.comments.size()} + ' Comments'">Comments</h4>
             <table border="1" class="fixed" cellpadding="8">
                 <col width="600px"/>
-                <tr  th:if="${session.SessionId != null}">
+                <tr th:if="${session.SessionId != null}">
                     <td>
                         <form method="post" th:action="@{/posts/add_comment/}">
                             <b>Post a Comment</b><br/>

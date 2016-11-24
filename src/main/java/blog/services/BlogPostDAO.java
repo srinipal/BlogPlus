@@ -22,6 +22,10 @@ public class BlogPostDAO {
     @Autowired
     BlogPostRepository repository;
 
+    public BlogPost getBlogPost(ObjectId blogPostId){
+        return repository.findById(blogPostId);
+    }
+
     public void createBlogPost(String title, String body, String author, String tags){
         BlogPost blogPost = new BlogPost(title, author, body, extractTags(tags));
         repository.save(blogPost);
