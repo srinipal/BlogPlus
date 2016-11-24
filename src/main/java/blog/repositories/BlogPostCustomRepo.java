@@ -8,7 +8,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 /**
  * Created by srinivas.g on 19/11/16.
  */
-public interface BlogPostCustomRepo{
+public interface BlogPostCustomRepo {
 
     public void pushComment(ObjectId postId, BlogPostComment blogPostComment);
+
+    public void upVotePost(ObjectId postId);
+
+    public void downVotePost(ObjectId postId);
 }

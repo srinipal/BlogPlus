@@ -121,6 +121,24 @@ public class BlogPost {
     private List<String> tags = new ArrayList<String>();
     private List<BlogPostComment> comments = new ArrayList<BlogPostComment>();
     private Date date = new Date();
+    private int likes = 0;
+    private int dislikes = 0;
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
 
     @Transient
     private String tagsAsStr;

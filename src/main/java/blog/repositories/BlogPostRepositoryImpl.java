@@ -26,4 +26,20 @@ public class BlogPostRepositoryImpl implements BlogPostCustomRepo{
                 Query.query(Criteria.where("id").is(postId)),
                 new Update().push("comments", blogPostComment), BlogPost.class);
     }
+
+    @Override
+    public void upVotePost(ObjectId postId) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(postId)),
+                new Update().inc("likes", 1), BlogPost.class);
+
+    }
+
+    @Override
+    public void downVotePost(ObjectId postId) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(postId)),
+                new Update().inc("dislikes", 1), BlogPost.class);
+
+    }
 }

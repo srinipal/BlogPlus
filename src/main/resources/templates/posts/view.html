@@ -7,7 +7,6 @@
 
 <body>
 
-<!--optimise this block-->
 <header th:if="${session.SessionId != null}">
     <th:block th:replace="user_layout :: site-header"/>
 </header>
@@ -15,42 +14,9 @@
     <th:block th:replace="guest_layout :: site-header"/>
 </header>
 
-<main id="posts">
-    <article>
-        <h2 class="title" th:text="${post.title}">Post Title</h2>
-        <div class="date">
-            <i>Posted on</i>
-            <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">22-May-2016</span>
-            <span th:if="${post.author}" th:remove="tag">
-        <i>by</i>
-        <span th:text="${post.author}">Test Author</span>
-        </span>
-        </div>
-        <p class="content" th:utext="${post.body}">Test Blog Post content</p>
-        <p th:text="'Tags: ' + ${post.tagsAsStr}"></p>
-        <h4 th:text="${post.comments.size()} + ' Comments'">Comments</h4>
-        <table border="1" class="fixed" cellpadding="8">
-            <col width="600px"/>
-            <!--Display comment creation form only if it is a valid session-->
-            <tr  th:if="${session.SessionId != null}">
-                <td>
-                    <form method="post" th:action="@{/posts/add_comment/}">
-                        <b>Post a Comment</b><br/>
-                        <textarea id="comment_body" name="comment_body" cols="100" rows="5"></textarea><br/>
-                        <input id="comment_post_id" name="comment_post_id" hidden="true" th:value="${post.id}"/>
-                        <input type="submit" value="Submit" style="float: right;"/>
-                    </form>
-                </td>
-            </tr>
-            <tr th:each="c : ${post.comments}">
-                <td>
-                    <b><span th:text="${c.author}">Commented By</span></b><br/>
-                    <span class="comment_body" th:utext="${c.body}">Comment</span>
-                </td>
-            </tr>
-        </table>
-    </article>
-</main>
+
+<div id="post"  th:replace="user_layout :: post">
+</div>
 
 <footer th:replace="user_layout :: site-footer"/>
 

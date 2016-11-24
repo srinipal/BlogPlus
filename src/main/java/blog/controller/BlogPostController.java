@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.naming.Binding;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -89,5 +90,19 @@ public class BlogPostController {
         String commentBody = allRequestParams.get("comment_body");
         blogPostDAO.addComment(postId, userName, commentBody);
         return new ModelAndView("redirect:/posts/view/" + postId);
+    }
+
+    @RequestMapping(value="/upvote/{id}", method = RequestMethod.GET)
+    public String upVote(@PathVariable("id") String postId, Model model){
+        BlogPost blogPost = blogPostDAO.upVotePost(postId);
+        model.addAttribute("post", blogPost);
+        return "user_layout :: post";
+    }
+
+    @RequestMapping(value="/downvote/{id}", method = RequestMethod.GET)
+    public String downVote(@PathVariable("id") String postId, Model model){
+        BlogPost blogPost = blogPostDAO.downVotePost(postId);
+        model.addAttribute("post", blogPost);
+        return "user_layout :: post";
     }
 }

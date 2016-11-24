@@ -70,7 +70,19 @@ public class BlogPostDAO {
         ObjectId id = new ObjectId(postId);
         repository.pushComment(id, new BlogPostComment(commentBody, author));
     }
-    
+
+    public BlogPost upVotePost(String postId){
+        ObjectId id = new ObjectId(postId);
+        repository.upVotePost(id);
+        return repository.findById(id);
+    }
+
+    public BlogPost downVotePost(String postId){
+        ObjectId id = new ObjectId(postId);
+        repository.downVotePost(id);
+        return repository.findById(id);
+    }
+
     public static List<BlogPost> sortByPopularity(Page<BlogPost> blogPosts){
         //List to hold the popular posts
 
