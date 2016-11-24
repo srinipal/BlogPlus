@@ -41,8 +41,8 @@ public class BlogPostDAO {
     }
 
     public Page<BlogPost> getPopularPosts(){
-        //TODO: implement this later
-        return null;
+        Page<BlogPost> popularPosts = repository.findAll(new PageRequest(0, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "likes"), new Sort.Order(Sort.Direction.ASC, "dislikes"), new Sort.Order(Sort.Direction.DESC, "date"))));
+        return popularPosts;
     }
 
 

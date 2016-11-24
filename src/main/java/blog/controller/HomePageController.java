@@ -27,7 +27,7 @@ public class HomePageController {
         model.addAttribute("latestPosts", latestPosts);
 
         //Calculate the popular posts
-        List<BlogPost> popularPosts = blogPostDAO.sortByPopularity(latestPosts);
+        Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts();
         model.addAttribute("popularPosts", popularPosts);
         return "index";
     }
@@ -43,7 +43,7 @@ public class HomePageController {
         model.addAttribute("latestPosts", latestPosts);
 
         //Calculate the popular posts
-        List<BlogPost> popularPosts = blogPostDAO.sortByPopularity(latestPosts);
+        Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts();
         model.addAttribute("popularPosts", popularPosts);
         return "welcome";
     }
