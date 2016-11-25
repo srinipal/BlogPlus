@@ -92,15 +92,18 @@ public class BlogPostController {
 
 
 
-    @RequestMapping(value="/upvote/{id}", method = RequestMethod.GET)
-    public String upVote(@PathVariable("id") String postId, Model model){
+    @RequestMapping(value="/upvote", method = RequestMethod.POST)
+    public String upVote(@RequestParam Map<String, String> allRequestParams, Model model){
+        String postId = allRequestParams.get("PostId");
         BlogPost blogPost = blogPostDAO.upVotePost(postId);
         model.addAttribute("post", blogPost);
         return "user_layout :: post";
     }
 
-    @RequestMapping(value="/downvote/{id}", method = RequestMethod.GET)
-    public String downVote(@PathVariable("id") String postId, Model model){
+
+    @RequestMapping(value="/downvote", method = RequestMethod.POST)
+    public String downVote(@RequestParam Map<String, String> allRequestParams, Model model){
+        String postId = allRequestParams.get("PostId");
         BlogPost blogPost = blogPostDAO.downVotePost(postId);
         model.addAttribute("post", blogPost);
         return "user_layout :: post";
