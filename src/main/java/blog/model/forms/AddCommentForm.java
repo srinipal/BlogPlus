@@ -1,5 +1,6 @@
 package blog.model.forms;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.bson.types.ObjectId;
 
 /**
@@ -22,6 +23,6 @@ public class AddCommentForm {
     }
 
     public void setCommentBody(String commentBody) {
-        this.commentBody = commentBody;
+        this.commentBody = StringEscapeUtils.escapeHtml(commentBody);
     }
 }

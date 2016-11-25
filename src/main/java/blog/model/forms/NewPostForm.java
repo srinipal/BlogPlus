@@ -1,5 +1,7 @@
 package blog.model.forms;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 /**
  * Created by srinivas.g on 21/11/16.
  */
@@ -21,6 +23,7 @@ public class NewPostForm {
     }
 
     public void setBody(String body) {
+        //html escaping the input here
         this.body = body;
     }
 

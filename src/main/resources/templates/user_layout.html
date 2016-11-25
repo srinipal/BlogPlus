@@ -7,6 +7,7 @@
     <script src="../public/js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
     <script src="../public/js/blog-scripts.js" th:src="@{/js/blog-scripts.js}"></script>
     <meta th:include="this :: head" th:remove="tag"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
 <header th:fragment="site-header">
@@ -42,15 +43,13 @@
         <p>
             <b>Tags: </b><span id="tags" th:text="${post.tagsAsStr}"></span>
 
-            <span th:if="${session.SessionId != null and post.author == session.UserName}">
-                <button th:text="'Edit Post'" th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'" ></button>
+            <span class="awesome_icon" th:if="${session.SessionId != null and post.author == session.UserName}">
+                &nbsp;&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'" ></i>
             </span>
         </p>
-        <div th:if="${session.SessionId != null and post.author != session.UserName}">
-            <button id="Like" name="Like" th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'"
-                    th:text="'Like | ' + ${post.likes}"/>
-            <button id="Dislike" name="Dislike" th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'"
-                    th:text="'Dislike | ' + ${post.dislikes}"/>
+        <div class="awesome_icon" th:if="${session.SessionId != null and post.author != session.UserName}">
+            <i class="fa fa-thumbs-up" aria-hidden="true" th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.likes}"></i>&nbsp;&nbsp;
+            <i class="fa fa-thumbs-down" aria-hidden="true" th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.dislikes}"></i>
         </div>
 
         <div id="comments">
