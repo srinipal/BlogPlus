@@ -2,10 +2,8 @@ package blog.controller;
 
 import blog.common.exceptions.BlogApplicationEx;
 import blog.model.BlogPost;
-import blog.model.forms.AddCommentForm;
+import blog.model.forms.EditPostForm;
 import blog.model.forms.NewPostForm;
-import blog.repositories.BlogPostCustomRepo;
-import blog.repositories.BlogPostRepository;
 import blog.services.BlogPostDAO;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.naming.Binding;
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +59,41 @@ public class BlogPostController {
         }
         blogPostDAO.createBlogPost(newPostForm.getTitle(), newPostForm.getBody(), userName, newPostForm.getTags());
         return "redirect:/welcome";
+    }
+
+    @RequestMapping(value="/edit", method = RequestMethod.POST)
+    public String editPost(@RequestParam  Map<String, String> allRequestParams, Model model){
+        String userName = (String) httpSession.getAttribute("UserName");
+        //If userName is null, indicates that user hasn't logged in
+        if(userName == null){
+            throw new BlogApplicationEx("Blog post can only be edited by a registered user", HttpStatus.UNAUTHORIZED);
+        }
+        EditPostForm editPostForm = new EditPostForm();
+
+        editPostForm.setId(allRequestParams.get("PostId"));
+        editPostForm.setBody(allRequestParams.get("PostContent"));
+        editPostForm.setTitle(allRequestParams.get("PostTitle"));
+        editPostForm.setTags(allRequestParams.get("PostTags"));
+
+        model.addAttribute("editPostForm", editPostForm);
+        return "user_layout :: editPost";
+    }
+
+
+    @RequestMapping(value="/merge", method=RequestMethod.POST)
+    public String savePost(@RequestParam Map<String, String> allRequestParams, Model model){
+        String userName = (String) httpSession.getAttribute("UserName");
+        //If userName is null, indicates that user hasn't logged in
+        if(userName == null){
+            throw new BlogApplicationEx("Blog post can only be edited by a registered user", HttpStatus.UNAUTHORIZED);
+        }
+        String postId = allRequestParams.get("PostId");
+        String postContent = allRequestParams.get("PostContent");
+        String postTitle = allRequestParams.get("PostTitle");
+        String tags = allRequestParams.get("PostTags");
+        BlogPost blogPost = blogPostDAO.updateBlogPost(postId,postTitle,postContent,userName, tags);
+        model.addAttribute("post", blogPost);
+        return "user_layout :: post";
     }
 
     @RequestMapping(value="/myposts")

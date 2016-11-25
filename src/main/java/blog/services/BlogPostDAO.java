@@ -31,6 +31,12 @@ public class BlogPostDAO {
         repository.save(blogPost);
     }
 
+    public BlogPost updateBlogPost(String blogPostId, String title, String body, String author, String tags){
+        BlogPost blogPost = new BlogPost(title, author, body, extractTags(tags));
+        blogPost.setId(new ObjectId(blogPostId));
+        return repository.save(blogPost);
+    }
+
     public List<BlogPost> getPostsByAuthor(String userName){
         List<BlogPost> blogPosts = repository.findByAuthorOrderByDateDesc(userName);
         if(blogPosts == null){

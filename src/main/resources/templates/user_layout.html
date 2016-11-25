@@ -31,7 +31,7 @@
     <article>
         <h2 id="title" class="title" th:text="${post.title}">Post Title</h2>
         <div id="posted_info" class="date">
-            <i>Posted on</i>
+            <i>Modified on</i>
             <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">22-May-2016</span>
             <span th:if="${post.author}" th:remove="tag">
                 <i>by</i>
@@ -39,7 +39,7 @@
             </span>
         </div>
         <div id="content" class="content" th:utext="${post.body}">Test Blog Post content</div>
-        <div id="tags" th:text="'Tags: ' + ${post.tagsAsStr}"></div>
+        <b>Tags:</b><div id="tags" th:text="${post.tagsAsStr}"></div>
 
         <div th:if="${session.SessionId != null and post.author != session.UserName}">
             <button id="Like" name="Like" th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'"
@@ -48,7 +48,7 @@
                     th:text="'Dislike | ' + ${post.dislikes}"/>
         </div>
         <div th:if="${session.SessionId != null and post.author == session.UserName}">
-            <a href="#" th:onclick="'editPost(\''+ ${post.id.toString()} + '\')'" style="float: right;">Edit Post</a>
+            <button th:text="'Edit Post'" th:onclick="'editPost(\''+ ${post.id.toString()} + '\')'" style="float: right;"></button>
         </div>
         <div id="comments">
             <h4 th:text="${post.comments.size()} + ' Comments'">Comments</h4>
@@ -75,6 +75,33 @@
         <br/>
     </article>
 </div>
+
+
+<div th:id="'post_' + ${editPostForm.id}" th:fragment="editPost">
+    <article>
+
+        <p>Required fields are followed by <strong><abbr title="required">*</abbr></strong>.</p>
+
+
+        <h2>Title</h2>
+        <input type="text" id="title" name="title" size="120" th:value="${editPostForm.title}" />
+        <strong><abbr title="required">*</abbr></strong>
+        <br/>
+
+        <h2>Blog Entry</h2>
+        <textarea name="body" id="content" cols="120" rows="20" th:text="${editPostForm.body}" />
+        <strong><abbr title="required">*</abbr></strong>
+        <br/>
+
+        <h2>Tags</h2>
+        Separate tags with a comma(,)<br/>
+        <input type="text" name="tags" id="tags" size="120" th:value="${editPostForm.tags}"/>
+
+        <p><button th:text="'Save'" th:onclick="'savePost(\''+ ${editPostForm.id.toString()} + '\')'" /></p>
+
+    </article>
+</div>
+
 <footer th:fragment="site-footer">
     What is Blog Plus?
 </footer>
