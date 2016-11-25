@@ -14,13 +14,7 @@ function downVotePost(post_id){
     $(divId).load(url, post_info);
 }
 
-function addComment(post_id){
-    var divId = "#" + "post_" + post_id;
-    var url = 'posts/add_comment';
-    $(divId).post(url);
-}
-
-function editPost(post_id){
+function preparePostEditForm(post_id){
 
     var postDivId = "#" + "post_" + post_id;
 
@@ -40,19 +34,6 @@ function editPost(post_id){
     $(postDivId).load(url, post_info)
 }
 
-function getAllValues(mainDiv){
-    var inputValues = [];
-        $(mainDiv + " input").each(function() {
-            var type = $(this).attr("type");
-            if ((type == "checkbox" || type == "radio") && this.checked) {
-                inputValues.push($(this).val());
-            }
-            else if (type != "button" || type != "submit") {
-                inputValues.push($(this).val());
-            }
-        })
-        return inputValues.join(',');
-}
 
 function savePost(post_id){
     var postDivId = "#" + "post_" + post_id;
@@ -72,6 +53,24 @@ function savePost(post_id){
         "PostContent" : postContent
     };
 
-    var url = "/posts/merge"
+    var url = "/posts/save"
     $(postDivId).load(url, post_info)
+}
+
+function getAllValues(mainDiv){
+    var inputValues = [];
+        $(mainDiv + " input").each(function() {
+            var type = $(this).attr("type");
+            if ((type == "checkbox" || type == "radio") && this.checked) {
+                inputValues.push($(this).val());
+            }
+            else if (type != "button" || type != "submit") {
+                inputValues.push($(this).val());
+            }
+        })
+        return inputValues.join(',');
+}
+
+function prepareForDisplay(str){
+    return str.replace(/<br\s*\/?>/mg, "n");
 }

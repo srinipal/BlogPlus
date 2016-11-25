@@ -39,17 +39,20 @@
             </span>
         </div>
         <div id="content" class="content" th:utext="${post.body}">Test Blog Post content</div>
-        <b>Tags:</b><div id="tags" th:text="${post.tagsAsStr}"></div>
+        <p>
+            <b>Tags: </b><span id="tags" th:text="${post.tagsAsStr}"></span>
 
+            <span th:if="${session.SessionId != null and post.author == session.UserName}">
+                <button th:text="'Edit Post'" th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'" ></button>
+            </span>
+        </p>
         <div th:if="${session.SessionId != null and post.author != session.UserName}">
             <button id="Like" name="Like" th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'"
                     th:text="'Like | ' + ${post.likes}"/>
             <button id="Dislike" name="Dislike" th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'"
                     th:text="'Dislike | ' + ${post.dislikes}"/>
         </div>
-        <div th:if="${session.SessionId != null and post.author == session.UserName}">
-            <button th:text="'Edit Post'" th:onclick="'editPost(\''+ ${post.id.toString()} + '\')'" style="float: right;"></button>
-        </div>
+
         <div id="comments">
             <h4 th:text="${post.comments.size()} + ' Comments'">Comments</h4>
             <table border="1" class="fixed" cellpadding="8">

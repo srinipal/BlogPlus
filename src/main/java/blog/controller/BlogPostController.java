@@ -61,8 +61,14 @@ public class BlogPostController {
         return "redirect:/welcome";
     }
 
+    /**
+     * Prepare Blog Post edit form which will be used for submitting blog post update
+     * @param allRequestParams
+     * @param model
+     * @return
+     */
     @RequestMapping(value="/edit", method = RequestMethod.POST)
-    public String editPost(@RequestParam  Map<String, String> allRequestParams, Model model){
+    public String prepareEdit(@RequestParam  Map<String, String> allRequestParams, Model model){
         String userName = (String) httpSession.getAttribute("UserName");
         //If userName is null, indicates that user hasn't logged in
         if(userName == null){
@@ -80,7 +86,13 @@ public class BlogPostController {
     }
 
 
-    @RequestMapping(value="/merge", method=RequestMethod.POST)
+    /**
+     * Save the values from blog Post to the corresponding blog entry in DB
+     * @param allRequestParams
+     * @param model
+     * @return
+     */
+    @RequestMapping(value="/save", method=RequestMethod.POST)
     public String savePost(@RequestParam Map<String, String> allRequestParams, Model model){
         String userName = (String) httpSession.getAttribute("UserName");
         //If userName is null, indicates that user hasn't logged in
