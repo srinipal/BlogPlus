@@ -11,8 +11,8 @@ BlogPlus is a simple and lightweight blogging platform built using Spring framew
 - [X] Like or Dislike a blog post
 - [X] View the latest and most popular posts in home page
 - [X] View the posts created by you
-- [ ] Add tags to an existing post
-- [ ] Edit a blog post
+- [X] Add tags to an existing post
+- [x] Edit a blog post
 - [ ] View posts created by a particular user
 
 
