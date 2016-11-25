@@ -70,7 +70,7 @@
                 <tr th:each="c : ${post.comments}">
                     <td>
                         <b><span th:text="${c.author}">Commented By</span></b><br/>
-                        <span class="comment_body" th:utext="${c.body}">Comment</span>
+                        <span class="content" th:utext="${c.body}">Comment</span>
                     </td>
                 </tr>
             </table>
