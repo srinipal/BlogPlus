@@ -47,9 +47,15 @@
                 &nbsp;&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'" ></i>
             </span>
         </p>
-        <div class="awesome_icon" th:if="${session.SessionId != null and post.author != session.UserName}">
-            <i class="fa fa-thumbs-up" aria-hidden="true" th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.likes}"></i>&nbsp;&nbsp;
-            <i class="fa fa-thumbs-down" aria-hidden="true" th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.dislikes}"></i>
+        <div class="awesome_icon" th:if="${session.SessionId != null}">
+            <th:block th:if="${post.author != session.UserName}">
+                <i class="fa fa-thumbs-up" aria-hidden="true" th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.likes}"></i>&nbsp;
+                <i class="fa fa-thumbs-down" aria-hidden="true" th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.dislikes}"></i>
+            </th:block>
+            <th:block th:if="${post.author == session.UserName}">
+                <i class="fa fa-thumbs-up" aria-hidden="true"  th:text="${post.likes}"></i>&nbsp;
+                <i class="fa fa-thumbs-down" aria-hidden="true" th:text="${post.dislikes}"></i>
+            </th:block>
         </div>
 
         <div id="comments">
@@ -58,23 +64,24 @@
                 <col width="600px"/>
                 <tr th:if="${session.SessionId != null}">
                     <td>
-                        <form method="post" th:action="@{/posts/add_comment/}">
+                        <div id="new_comment_form">
+
                             <b>Post a Comment</b><br/>
-                            <textarea id="comment_body" name="comment_body" cols="100" rows="5"></textarea><br/>
-                            <input id="comment_post_id" name="comment_post_id" hidden="true" th:value="${post.id}"/>
-                            <input type="submit" value="Submit" style="float: right;"/>
-                        </form>
+                            <textarea id="comment_body" name="comment_body" cols="100" rows="5" />
+                            <button th:text="Submit" th:onclick="'addComment(\''+ ${post.id.toString()} + '\')'" style="float: right;"/>
+
+                        </div>
                     </td>
                 </tr>
                 <tr th:each="c : ${post.comments}">
                     <td>
-                        <b><span th:text="${c.author}">Commented By</span></b><br/>
-                        <span class="content" th:utext="${c.body}">Comment</span>
+                        <b><span th:text="${c.author}">Commented By</span></b>&nbsp;&nbsp;
+                        <!--<span th:text="${#dates.format(c.date, 'dd-MMM-yyyy')}" />-->
+                        <br/><span class="content" th:utext="${c.body}">Comment</span>
                     </td>
                 </tr>
             </table>
         </div>
-        <br/><hr />
     </article>
 </div>
 

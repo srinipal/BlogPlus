@@ -119,17 +119,20 @@ public class BlogPostController {
         return "posts/myposts";
     }
 
-    @RequestMapping(value="/add_comment", method = RequestMethod.POST)
-    public ModelAndView addComment(@RequestParam Map<String,String> allRequestParams){
+    @RequestMapping(value="/addComment", method = RequestMethod.POST)
+    public String addComment(@RequestParam Map<String,String> allRequestParams, Model model){
         String userName = (String) httpSession.getAttribute("UserName");
         if(userName == null){
             throw new BlogApplicationEx("Comments can be added only by a registered user", HttpStatus.UNAUTHORIZED);
         }
 
-        String postId = allRequestParams.get("comment_post_id");
-        String commentBody = allRequestParams.get("comment_body");
+        String postId = allRequestParams.get("PostId");
+        String commentBody = allRequestParams.get("CommentBody");
         blogPostDAO.addComment(postId, userName, commentBody);
-        return new ModelAndView("redirect:/posts/view/" + postId);
+
+        BlogPost blogPost = blogPostDAO.getBlogPost(new ObjectId(postId));
+        model.addAttribute("post", blogPost);
+        return "user_layout :: post";
     }
 
 

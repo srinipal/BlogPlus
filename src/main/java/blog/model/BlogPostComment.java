@@ -1,11 +1,22 @@
 package blog.model;
 
+import java.util.Date;
+
 /**
  * Created by srinivas.g on 22/11/16.
  */
 public class BlogPostComment {
     private String body;
     private String author;
+    private Date date = new Date();
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getBody() {
         return body;

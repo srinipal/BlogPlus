@@ -57,9 +57,25 @@ function savePost(post_id){
     $(postDivId).load(url, post_info)
 }
 
+function addComment(post_id){
+    var postDivId = "#" + "post_" + post_id;
+    /*
+    alert(post_id);
+    alert(getAllValues(postCommentsDivId));
+    */
+    var commentBody = $(postDivId + " :input[name=comment_body]").val();
+    var post_info = {
+        "PostId" : post_id,
+        "CommentBody" : commentBody
+    };
+
+    var url = "/posts/addComment";
+    $(postDivId).load(url, post_info);
+}
+
 function getAllValues(mainDiv){
     var inputValues = [];
-        $(mainDiv + " input").each(function() {
+        $(mainDiv + " :input").each(function() {
             var type = $(this).attr("type");
             if ((type == "checkbox" || type == "radio") && this.checked) {
                 inputValues.push($(this).val());
