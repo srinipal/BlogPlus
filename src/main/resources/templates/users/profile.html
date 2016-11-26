@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="user_layout :: site-head">
+    <title>Profile</title>
+</head>
+
+<body>
+
+<header th:if="${session.SessionId != null}">
+    <th:block th:replace="user_layout :: site-header"/>
+</header>
+<header th:if="${session.SessionId == null}">
+    <th:block th:replace="guest_layout :: site-header"/>
+</header>
+
+<center>
+    <h4>Blogger Details:</h4>
+    <table>
+        <tr>
+            <td><b>User Name</b></td><td th:text="${user.id}" >User Name</td>
+        </tr>
+        <tr>
+            <td><b>Full Name</b></td><td th:text="${user.fullName}" >Full Name</td>
+        </tr>
+        <tr>
+            <td><b>Contact</b></td><td th:text="${user.emailAddress}" >Contact</td>
+        </tr>
+    </table>
+</center>
+
+<footer th:replace="user_layout :: site-footer"/>
+</body>
+
+</html>

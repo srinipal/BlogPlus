@@ -61,17 +61,21 @@ label span{
   text-align: right;
 }
 
+
 table{
-background: #eee;
-border-collapse:collapse;
-border-spacing:0;
+    background: #eee;
+    border-collapse:collapse;
+    border-spacing:0;
 }
 
 
 article{
-
     padding-left: 140px;
     padding-right: 140px;
+}
+
+a {
+    text-decoration: none
 }
 
 .content{

@@ -105,4 +105,23 @@ public class UserController {
         return "redirect:/";
     }
 
+    @RequestMapping(value="/profile")
+    public String viewMyProfile(Model model, HttpSession httpSession){
+        String userName = (String)httpSession.getAttribute("UserName");
+        if(userName == null){
+            throw new BlogApplicationEx("You must be logged in to view this page", HttpStatus.UNAUTHORIZED);
+        }
+        User user = userDAO.getUser(userName);
+        model.addAttribute("user", user);
+        return "users/profile";
+    }
+
+    @RequestMapping("/profile/{username}")
+    public String viewAllProfiles(@PathVariable("username") String userName, Model model) {
+        String loggedInUserName = (String)httpSession.getAttribute("UserName");
+        User user = userDAO.getUser(userName);
+        model.addAttribute("user", user);
+        return "users/profile";
+    }
+
 }

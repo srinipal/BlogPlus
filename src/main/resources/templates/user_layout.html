@@ -16,6 +16,8 @@
     <a href="index.html" th:href="@{/welcome}">Home</a>
     <a href="posts/index.html" th:href="@{/posts/myposts}">My Posts</a>
     <a href="posts/create.html" th:href="@{/posts/create}">Create Post</a>
+    <a href="users/profile.html" th:href="@{/users/profile}">Profile</a>
+
     <div id="logged-in-info"><span>Hello, <b th:text="${session.UserName}"
                                              th:unless="${session == null}">Guest</b></span>
         <form method="post" th:action="@{/users/logout}">
@@ -30,13 +32,13 @@
 <!--every post displayed in application follows this standard-->
 <div th:id="'post_' + ${post.id}" th:fragment="post">
     <article>
-        <h2 id="title" class="title" th:text="${post.title}">Post Title</h2>
+        <a href="#" th:href="@{/posts/view/{id}/(id=${post.id})}"><h2 id="title" class="title" th:text="${post.title}">Post Title</h2></a>
         <div id="posted_info" class="date">
             <i>Modified on</i>
             <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">22-May-2016</span>
             <span th:if="${post.author}" th:remove="tag">
                 <i>by</i>
-                <span th:text="${post.author}">Test Author</span>
+                <a href="#" th:href="@{/users/profile/{username}/(username=${post.author})}" th:text="${post.author}">Test Author</a>
             </span>
         </div>
         <div id="content" class="content" th:utext="${post.body}">Test Blog Post content</div>
@@ -57,14 +59,16 @@
                 <i class="fa fa-thumbs-down" aria-hidden="true" th:text="${post.dislikes}"></i>
             </th:block>
         </div>
+        <br/>
 
         <div id="comments">
-            <h4 th:text="${post.comments.size()} + ' Comments'">Comments</h4>
+
             <table border="1" class="fixed" cellpadding="8">
                 <col width="600px"/>
+                <tr><td><b th:text="${post.comments.size()} + ' Comments'">Comments</b></td></tr>
                 <tr th:if="${session.SessionId != null}">
                     <td>
-                        <div id="new_comment_form">
+                        <div class="new_comment_form">
 
                             <b>Post a Comment</b><br/>
                             <textarea id="comment_body" name="comment_body" cols="100" rows="5" />
@@ -73,14 +77,19 @@
                         </div>
                     </td>
                 </tr>
+
                 <tr th:each="c : ${post.comments}">
                     <td>
-                        <b><span th:text="${c.author}">Commented By</span></b>&nbsp;&nbsp;
-                        <!--<span th:text="${#dates.format(c.date, 'dd-MMM-yyyy')}" />-->
+                        <a href="#" th:href="@{/users/profile/{username}/(username=${c.author})}" th:text="${c.author}">Commented By</a>
+                        <span th:text="' on ' + ${#dates.format(c.date, 'EEE, dd MMM yy')}" />
                         <br/><span class="content" th:utext="${c.body}">Comment</span>
                     </td>
                 </tr>
             </table>
+
+            <p th:if="${session.SessionId == null}">
+                <i>You must be <a href="users/login.html" th:href="@{/users/login}">logged in</a> to post a comment.</i>
+            </p>
         </div>
     </article>
 </div>

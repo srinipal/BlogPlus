@@ -58,6 +58,11 @@ public class UserDAO {
         return user;
     }
 
+    public User getUser(String userName){
+        User user = userRepository.findById(userName);
+        return user;
+    }
+
     private static String makePasswordHash(String password, String salt) {
         try {
             String saltedAndHashed = password + "," + salt;
