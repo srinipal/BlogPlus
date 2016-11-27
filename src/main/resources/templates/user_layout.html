@@ -63,7 +63,7 @@
 
         <div id="comments">
 
-            <table border="1" class="fixed" cellpadding="8">
+            <table border="1" class="fixed" cellpadding="8" style="background: #eee">
                 <col width="600px"/>
                 <tr><td><b th:text="${post.comments.size()} + ' Comments'">Comments</b></td></tr>
                 <tr th:if="${session.SessionId != null}">

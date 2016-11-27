@@ -20,13 +20,18 @@ public class HomePageController {
     @Autowired
     private BlogPostDAO blogPostDAO;
 
+    /**
+     * Default page for a guest user
+     * @param model
+     * @return
+     */
     @RequestMapping("/")
     public String index(Model model) {
-        //TODO: get popular posts instead of this
+        //Get the latest posts
         Page<BlogPost> latestPosts = blogPostDAO.getLatestPosts();
         model.addAttribute("latestPosts", latestPosts);
 
-        //Calculate the popular posts
+        //Get the popular posts
         Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts();
         model.addAttribute("popularPosts", popularPosts);
         return "index";
@@ -38,11 +43,11 @@ public class HomePageController {
         if(sessionId == null){
             return "redirect:/";
         }
-        //TODO: get popular posts instead of this
+        //Get the latest posts
         Page<BlogPost> latestPosts = blogPostDAO.getLatestPosts();
         model.addAttribute("latestPosts", latestPosts);
 
-        //Calculate the popular posts
+        //Get the popular posts
         Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts();
         model.addAttribute("popularPosts", popularPosts);
         return "welcome";

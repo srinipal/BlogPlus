@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="user_layout :: site-head">
+    <title>Error Page</title>
+</head>
+
+<body>
+
+<header th:if="${session.SessionId != null}">
+    <th:block th:replace="user_layout :: site-header"/>
+</header>
+<header th:if="${session.SessionId == null}">
+    <th:block th:replace="guest_layout :: site-header"/>
+</header>
+
+<div class="error_div" th:text="${error}" text="Couldn't perform the requested operation"></div>
+
+<footer th:replace="guest_layout :: site-footer"/>
+
+</body>
+
+</html>

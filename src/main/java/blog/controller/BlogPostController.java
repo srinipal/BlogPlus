@@ -1,6 +1,7 @@
 package blog.controller;
 
-import blog.common.exceptions.BlogApplicationEx;
+import blog.common.exceptions.BadRequestException;
+import blog.common.exceptions.RestrictedAccessException;
 import blog.model.BlogPost;
 import blog.model.forms.EditPostForm;
 import blog.model.forms.NewPostForm;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -43,7 +43,7 @@ public class BlogPostController {
         String userName = (String) httpSession.getAttribute("UserName");
         //If userName is null, indicates that user hasn't logged in
         if(userName == null){
-            throw new BlogApplicationEx("Blog post can only be created by a registered user", HttpStatus.UNAUTHORIZED);
+            throw new RestrictedAccessException("A blog post can only be created by a registered user", HttpStatus.UNAUTHORIZED);
         }
         NewPostForm newPostForm = new NewPostForm();
         model.addAttribute("newPostForm", newPostForm);
@@ -55,7 +55,7 @@ public class BlogPostController {
         String userName = (String) httpSession.getAttribute("UserName");
         //If userName is null, indicates that user hasn't logged in
         if(userName == null){
-            throw new BlogApplicationEx("Blog post can only be created by a registered user", HttpStatus.UNAUTHORIZED);
+            throw new RestrictedAccessException("A blog post can only be created by a registered user", HttpStatus.UNAUTHORIZED);
         }
         blogPostDAO.createBlogPost(newPostForm.getTitle(), newPostForm.getBody(), userName, newPostForm.getTags());
         return "redirect:/welcome";
@@ -72,7 +72,7 @@ public class BlogPostController {
         String userName = (String) httpSession.getAttribute("UserName");
         //If userName is null, indicates that user hasn't logged in
         if(userName == null){
-            throw new BlogApplicationEx("Blog post can only be edited by a registered user", HttpStatus.UNAUTHORIZED);
+            throw new RestrictedAccessException("A blog post can only be edited by a registered user", HttpStatus.UNAUTHORIZED);
         }
         EditPostForm editPostForm = new EditPostForm();
 
@@ -97,7 +97,7 @@ public class BlogPostController {
         String userName = (String) httpSession.getAttribute("UserName");
         //If userName is null, indicates that user hasn't logged in
         if(userName == null){
-            throw new BlogApplicationEx("Blog post can only be edited by a registered user", HttpStatus.UNAUTHORIZED);
+            throw new RestrictedAccessException("A blog post can only be edited by a registered user", HttpStatus.UNAUTHORIZED);
         }
         String postId = allRequestParams.get("PostId");
         String postContent = allRequestParams.get("PostContent");
@@ -112,7 +112,7 @@ public class BlogPostController {
     public String viewMyPosts(Model model){
         String userName = (String) httpSession.getAttribute("UserName");
         if(userName == null){
-            throw new BlogApplicationEx("Blog posts are available only for registered user", HttpStatus.UNAUTHORIZED);
+            throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);
         }
         List<BlogPost> myPosts = blogPostDAO.getPostsByAuthor(userName);
         model.addAttribute("myposts", myPosts);
@@ -123,7 +123,7 @@ public class BlogPostController {
     public String addComment(@RequestParam Map<String,String> allRequestParams, Model model){
         String userName = (String) httpSession.getAttribute("UserName");
         if(userName == null){
-            throw new BlogApplicationEx("Comments can be added only by a registered user", HttpStatus.UNAUTHORIZED);
+            throw new BadRequestException("Comments can only be added by a registered user", HttpStatus.UNAUTHORIZED);
         }
 
         String postId = allRequestParams.get("PostId");
@@ -140,6 +140,10 @@ public class BlogPostController {
 
     @RequestMapping(value="/upvote", method = RequestMethod.POST)
     public String upVote(@RequestParam Map<String, String> allRequestParams, Model model){
+        String userName = (String) httpSession.getAttribute("UserName");
+        if(userName == null){
+            throw new BadRequestException("You must be logged in to perform this operation", HttpStatus.UNAUTHORIZED);
+        }
         String postId = allRequestParams.get("PostId");
         BlogPost blogPost = blogPostDAO.upVotePost(postId);
         model.addAttribute("post", blogPost);
@@ -149,9 +153,16 @@ public class BlogPostController {
 
     @RequestMapping(value="/downvote", method = RequestMethod.POST)
     public String downVote(@RequestParam Map<String, String> allRequestParams, Model model){
+        String userName = (String) httpSession.getAttribute("UserName");
+        if(userName == null){
+            throw new BadRequestException("You must be logged in to perform this operation", HttpStatus.UNAUTHORIZED);
+        }
         String postId = allRequestParams.get("PostId");
         BlogPost blogPost = blogPostDAO.downVotePost(postId);
         model.addAttribute("post", blogPost);
         return "user_layout :: post";
     }
+
+
+
 }

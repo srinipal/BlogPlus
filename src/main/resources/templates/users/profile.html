@@ -7,16 +7,16 @@
 
 <body>
 
-<header th:if="${session.SessionId != null}">
-    <th:block th:replace="user_layout :: site-header"/>
-</header>
-<header th:if="${session.SessionId == null}">
-    <th:block th:replace="guest_layout :: site-header"/>
-</header>
+    <header th:if="${session.SessionId != null}">
+        <th:block th:replace="user_layout :: site-header"/>
+    </header>
+    <header th:if="${session.SessionId == null}">
+        <th:block th:replace="guest_layout :: site-header"/>
+    </header>
 
-<center>
-    <h4>Blogger Details:</h4>
-    <table>
+
+    <h2>About</h2>
+    <table cellpadding="4">
         <tr>
             <td><b>User Name</b></td><td th:text="${user.id}" >User Name</td>
         </tr>
@@ -24,12 +24,24 @@
             <td><b>Full Name</b></td><td th:text="${user.fullName}" >Full Name</td>
         </tr>
         <tr>
-            <td><b>Contact</b></td><td th:text="${user.emailAddress}" >Contact</td>
+            <td><b>Email</b></td><td><a th:text="${user.emailAddress}" th:href="'mailto:' + ${user.emailAddress}">Contact</a></td>
         </tr>
     </table>
-</center>
 
-<footer th:replace="user_layout :: site-footer"/>
+
+    <hr />
+
+    <h2 th:text="${user.id} + '\'s posts'">Posts</h2><br/>
+    <main id="posts">
+        <thblock th:each="post : ${userposts}">
+            <div th:replace="user_layout :: post">
+            </div>
+            <br/><br/><br/>
+        </thblock>
+    </main>
+
+
+    <footer th:replace="user_layout :: site-footer"/>
 </body>
 
 </html>

@@ -63,7 +63,7 @@ label span{
 
 
 table{
-    background: #eee;
+
     border-collapse:collapse;
     border-spacing:0;
 }
@@ -84,4 +84,10 @@ a {
 
 .awesome_icon{
     font-size: 1.5em;
+}
+
+.error_div {
+    color: red;
+    text-align: center;
+    padding: 100px 0;
 }

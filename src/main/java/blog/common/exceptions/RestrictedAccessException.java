@@ -3,14 +3,13 @@ package blog.common.exceptions;
 import org.springframework.http.HttpStatus;
 
 /**
- * Created by srinivas.g on 22/11/16.
+ * Created by srinivas.g on 27/11/16.
  */
-public class BlogApplicationEx extends RuntimeException{
-
+public class RestrictedAccessException extends RuntimeException {
     private HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     private String errorMessage = null;
 
-    public BlogApplicationEx(String errorMessage, HttpStatus httpStatus){
+    public RestrictedAccessException(String errorMessage, HttpStatus httpStatus){
         this.errorMessage = errorMessage;
         this.httpStatus = httpStatus;
     }
