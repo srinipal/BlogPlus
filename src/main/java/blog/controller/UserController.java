@@ -114,6 +114,10 @@ public class UserController {
             //Add SessionId as session attribute
             httpSession.setAttribute("SessionId", sessionId);
         }
+        if(user == null){
+            throw new BadRequestException("The username or password is incorrect", HttpStatus.UNAUTHORIZED);
+        }
+
         return "redirect:/welcome";
     }
 
@@ -136,6 +140,9 @@ public class UserController {
             throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);
         }
         User user = userDAO.getUser(userName);
+        if(user == null){
+            throw new BadRequestException("The user profile for " + userName + " doesn't exist", HttpStatus.NOT_FOUND);
+        }
         model.addAttribute("user", user);
 
         List<BlogPost> blogPosts = blogPostDAO.getPostsByAuthor(userName);
@@ -147,6 +154,9 @@ public class UserController {
     public String viewAllProfiles(@PathVariable("username") String userName, Model model) {
         String loggedInUserName = (String)httpSession.getAttribute("UserName");
         User user = userDAO.getUser(userName);
+        if(user == null){
+            throw new BadRequestException("The user profile for " + userName + " doesn't exist", HttpStatus.NOT_FOUND);
+        }
         model.addAttribute("user", user);
         List<BlogPost> blogPosts = blogPostDAO.getPostsByAuthor(userName);
         model.addAttribute("userposts", blogPosts);

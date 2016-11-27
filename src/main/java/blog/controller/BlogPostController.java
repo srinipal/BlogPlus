@@ -32,8 +32,19 @@ public class BlogPostController {
     HttpSession httpSession;
 
     @RequestMapping("/view/{id}")
-    public String view(@PathVariable("id") ObjectId id, Model model) {
-        BlogPost post = blogPostDAO.getBlogPost(id);
+    public String view(@PathVariable("id") String id, Model model) {
+        ObjectId postId = null;
+        try{
+            postId = new ObjectId(id);
+        }
+        catch(IllegalArgumentException ex){
+            ;//Indicates that id value is not i expected format
+            throw new BadRequestException("The requested blog post doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        BlogPost post = blogPostDAO.getBlogPost(postId);
+        if(post == null){
+            throw new BadRequestException("The requested blog post doesn't exist", HttpStatus.NOT_FOUND);
+        }
         model.addAttribute("post", post);
         return "posts/view";
     }

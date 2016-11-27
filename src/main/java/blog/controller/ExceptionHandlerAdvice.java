@@ -26,6 +26,13 @@ public class ExceptionHandlerAdvice {
         return "appl_error";
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleError(BadRequestException ex, Model model){
+        model.addAttribute("error", ex.getErrorMessage());
+        return "appl_error";
+    }
+
     @ExceptionHandler(Exception.class)
     public String handleException(HttpServletRequest req, Exception ex, Model model){
         model.addAttribute("exception", ex);
