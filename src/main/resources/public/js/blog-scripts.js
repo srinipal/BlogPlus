@@ -41,8 +41,20 @@ function savePost(post_id){
     var postId = String(post_id);
 
     var postContent = $(postDivId).find('#content').val();
+    //trim and validate if comment is provided
+    postContent = postContent.trim();
+    if(postContent == ""){
+        alert("Please enter the postContent");
+        return;
+    }
 
     var postTitle = $(postDivId + " input[name=title]").val();
+    //trim and validate if comment is provided
+    postTitle = postTitle.trim();
+    if(postTitle == ""){
+        alert("Please enter the postTitle");
+        return;
+    }
 
     var postTags = $(postDivId + " input[name=tags]").val();
 
@@ -59,11 +71,16 @@ function savePost(post_id){
 
 function addComment(post_id){
     var postDivId = "#" + "post_" + post_id;
-    /*
-    alert(post_id);
-    alert(getAllValues(postCommentsDivId));
-    */
+
     var commentBody = $(postDivId + " :input[name=comment_body]").val();
+
+    //trim and validate if comment is provided
+    commentBody = commentBody.trim();
+    if(commentBody == ""){
+        alert("Please enter the comment");
+        return;
+    }
+
     var post_info = {
         "PostId" : post_id,
         "CommentBody" : commentBody

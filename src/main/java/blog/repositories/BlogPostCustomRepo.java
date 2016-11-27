@@ -5,6 +5,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import java.util.List;
+
 /**
  * Custom repository to provide additional methods to achieve CRUD operations that are not
  * already defined in MongoRepository
@@ -30,4 +32,6 @@ public interface BlogPostCustomRepo {
      * @param postId
      */
     public void downVotePost(ObjectId postId);
+
+    public void updatePost(ObjectId postId, String postTitle, String postContent, List<String> tags, String author);
 }

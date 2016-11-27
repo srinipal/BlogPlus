@@ -32,9 +32,13 @@ public class BlogPostDAO {
     }
 
     public BlogPost updateBlogPost(String blogPostId, String title, String body, String author, String tags){
-        BlogPost blogPost = new BlogPost(title, author, body, extractTags(tags));
-        blogPost.setId(new ObjectId(blogPostId));
-        return repository.save(blogPost);
+        ObjectId id = new ObjectId(blogPostId);
+        //update the blog post first
+        repository.updatePost(id, title, body, extractTags(tags), author);
+
+        //Get the updated blog post from db
+        BlogPost blogPost = repository.findById(id);
+        return blogPost;
     }
 
     public List<BlogPost> getPostsByAuthor(String userName){
