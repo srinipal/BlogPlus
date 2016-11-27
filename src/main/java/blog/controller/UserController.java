@@ -10,6 +10,7 @@ import blog.repositories.UserRepository;
 import blog.services.BlogPostDAO;
 import blog.services.SessionDAO;
 import blog.services.UserDAO;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

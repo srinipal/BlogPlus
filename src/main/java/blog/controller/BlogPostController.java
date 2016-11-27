@@ -6,6 +6,7 @@ import blog.model.BlogPost;
 import blog.model.forms.EditPostForm;
 import blog.model.forms.NewPostForm;
 import blog.services.BlogPostDAO;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -68,7 +69,13 @@ public class BlogPostController {
         if(userName == null){
             throw new RestrictedAccessException("A blog post can only be created by a registered user", HttpStatus.UNAUTHORIZED);
         }
-        blogPostDAO.createBlogPost(newPostForm.getTitle(), newPostForm.getBody(), userName, newPostForm.getTags());
+
+        //escaping html before saving to database
+        String title = StringEscapeUtils.escapeHtml(newPostForm.getTitle());
+        String body = StringEscapeUtils.escapeHtml(newPostForm.getBody());
+        String tags = StringEscapeUtils.escapeHtml(newPostForm.getTags());
+
+        blogPostDAO.createBlogPost(title, body, userName, tags);
         return "redirect:/welcome";
     }
 
@@ -110,10 +117,14 @@ public class BlogPostController {
         if(userName == null){
             throw new RestrictedAccessException("A blog post can only be edited by a registered user", HttpStatus.UNAUTHORIZED);
         }
+
+        //escaping html before saving to database
         String postId = allRequestParams.get("PostId");
-        String postContent = allRequestParams.get("PostContent");
-        String postTitle = allRequestParams.get("PostTitle");
-        String tags = allRequestParams.get("PostTags");
+        String postContent = StringEscapeUtils.escapeHtml(allRequestParams.get("PostContent"));
+        String postTitle = StringEscapeUtils.escapeHtml(allRequestParams.get("PostTitle"));
+        String tags = StringEscapeUtils.escapeHtml(allRequestParams.get("PostTags"));
+
+
         BlogPost blogPost = blogPostDAO.updateBlogPost(postId,postTitle,postContent,userName, tags);
         model.addAttribute("post", blogPost);
         return "user_layout :: post";
@@ -138,16 +149,14 @@ public class BlogPostController {
         }
 
         String postId = allRequestParams.get("PostId");
-        String commentBody = allRequestParams.get("CommentBody");
+        //escaping html before saving to database
+        String commentBody = StringEscapeUtils.escapeHtml(allRequestParams.get("CommentBody"));
         blogPostDAO.addComment(postId, userName, commentBody);
 
         BlogPost blogPost = blogPostDAO.getBlogPost(new ObjectId(postId));
         model.addAttribute("post", blogPost);
         return "user_layout :: post";
     }
-
-
-
 
     @RequestMapping(value="/upvote", method = RequestMethod.POST)
     public String upVote(@RequestParam Map<String, String> allRequestParams, Model model){
@@ -173,7 +182,5 @@ public class BlogPostController {
         model.addAttribute("post", blogPost);
         return "user_layout :: post";
     }
-
-
 
 }
