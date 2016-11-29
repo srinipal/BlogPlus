@@ -26,7 +26,7 @@ It also provides a "guest" browsing mode in which guests are provided a subset o
 ## Setting up locally:
 
 ### Prerequisites:
-- Install MongoDB by following the steps detailed [here](https://docs.mongodb.com/v3.2/installation/)
+- Install MongoDB by following the steps detailed [here](https://docs.mongodb.com/v3.2/installation/) and run it on a desired port.
 - Download the latest version of jQeury library from [here](https://jquery.com/download/). Rename it to "jquery.js".
 
 ### Running the blog application
