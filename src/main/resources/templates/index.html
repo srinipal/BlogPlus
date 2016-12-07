@@ -15,13 +15,13 @@
         Begins on HTML5.1</a>
 </aside>
 
-<main id="posts">
+<article class="blogPosts" id="posts">
     <thblock th:each="post : ${latestPosts}">
         <div th:replace="user_layout :: post">
         </div>
-        <br/><br/><br/>
+        <br /><br/>
     </thblock>
-</main>
+</article>
 
 <footer th:replace="guest_layout :: site-footer"/>
 </body>

@@ -63,15 +63,14 @@ label span{
 
 
 table{
-
     border-collapse:collapse;
     border-spacing:0;
 }
 
 
-article{
+.blogPosts{
     padding-left: 140px;
-    padding-right: 140px;
+    padding-right: 340px;
 }
 
 a {

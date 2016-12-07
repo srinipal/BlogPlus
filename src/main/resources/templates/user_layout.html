@@ -30,104 +30,99 @@
 
 <!--id is dynamically constructed and this helps jquery to load the content corresponding to a specific tag only-->
 <!--every post displayed in application follows this standard-->
+
 <div th:id="'post_' + ${post.id}" th:fragment="post">
-    <article>
-        <a href="#" th:href="@{/posts/view/{id}/(id=${post.id})}"><h2 id="title" class="title" th:text="${post.title}">
-            Post Title</h2></a>
-        <div id="posted_info" class="date">
-            <i>Created on</i>
-            <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">22-May-2016</span>
-            <span th:if="${post.author}" th:remove="tag">
-                <i>by</i>
-                <a href="#" th:href="@{/users/profile/{username}/(username=${post.author})}" th:text="${post.author}">Test Author</a>
-            </span>
-        </div>
-        <div id="content" class="content" th:utext="${post.body}">Test Blog Post content</div>
-        <p>
-            <b>Tags: </b><span id="tags" th:text="${post.tagsAsStr}"></span>
+    <a href="#" th:href="@{/posts/view/{id}/(id=${post.id})}"><h2 id="title" class="title" th:text="${post.title}">
+        Post Title</h2></a>
+    <div id="posted_info" class="date">
+        <i>Created on</i>
+        <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">22-May-2016</span>
+        <span th:if="${post.author}" th:remove="tag">
+            <i>by</i>
+            <a href="#" th:href="@{/users/profile/{username}/(username=${post.author})}" th:text="${post.author}">Test Author</a>
+        </span>
+    </div>
+    <div id="content" class="content" th:utext="${post.body}">Test Blog Post content</div>
+    <p>
+        <b>Tags: </b><span id="tags" th:text="${post.tagsAsStr}"></span>
 
-            <span class="awesome_icon" th:if="${session.SessionId != null and post.author == session.UserName}">
-                &nbsp;&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"
-                               th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'"></i>
-            </span>
+        <span class="awesome_icon" th:if="${session.SessionId != null and post.author == session.UserName}">
+            &nbsp;&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"
+                           th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'"></i>
+        </span>
+    </p>
+    <div class="awesome_icon" th:if="${session.SessionId != null}">
+        <th:block th:if="${post.author != session.UserName}">
+            <i class="fa fa-thumbs-up" aria-hidden="true"
+               th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.likes}"></i>&nbsp;
+            <i class="fa fa-thumbs-down" aria-hidden="true"
+               th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.dislikes}"></i>
+        </th:block>
+        <th:block th:if="${post.author == session.UserName}">
+            <i class="fa fa-thumbs-up" aria-hidden="true" th:text="${post.likes}"></i>&nbsp;
+            <i class="fa fa-thumbs-down" aria-hidden="true" th:text="${post.dislikes}"></i>
+        </th:block>
+    </div>
+    <br/>
+
+    <div id="comments">
+
+        <table border="1" class="fixed" cellpadding="8" style="background: #eee">
+            <col width="600px"/>
+            <tr>
+                <td><b th:text="${post.comments.size()} + ' Comments'">Comments</b></td>
+            </tr>
+            <tr th:if="${session.SessionId != null}">
+                <td>
+                    <div class="new_comment_form">
+
+                        <b>Post a Comment</b><br/>
+                        <textarea id="comment_body" name="comment_body" cols="80" rows="5"/>
+                        <button th:text="Submit" th:onclick="'addComment(\''+ ${post.id.toString()} + '\')'"
+                                style="float: right;"/>
+
+                    </div>
+                </td>
+            </tr>
+
+            <tr th:each="c : ${post.comments}">
+                <td>
+                    <a href="#" th:href="@{/users/profile/{username}/(username=${c.author})}" th:text="${c.author}">Commented
+                        By</a>
+                    <span th:text="' on ' + ${#dates.format(c.date, 'EEE, dd MMM yy')}"/>
+                    <br/><span class="content" th:utext="${c.body}">Comment</span>
+                </td>
+            </tr>
+        </table>
+
+        <p th:if="${session.SessionId == null}">
+            <i>You must be <a href="users/login.html" th:href="@{/users/login}">logged in</a> to post a comment.</i>
         </p>
-        <div class="awesome_icon" th:if="${session.SessionId != null}">
-            <th:block th:if="${post.author != session.UserName}">
-                <i class="fa fa-thumbs-up" aria-hidden="true"
-                   th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.likes}"></i>&nbsp;
-                <i class="fa fa-thumbs-down" aria-hidden="true"
-                   th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.dislikes}"></i>
-            </th:block>
-            <th:block th:if="${post.author == session.UserName}">
-                <i class="fa fa-thumbs-up" aria-hidden="true" th:text="${post.likes}"></i>&nbsp;
-                <i class="fa fa-thumbs-down" aria-hidden="true" th:text="${post.dislikes}"></i>
-            </th:block>
-        </div>
-        <br/>
-
-        <div id="comments">
-
-            <table border="1" class="fixed" cellpadding="8" style="background: #eee">
-                <col width="600px"/>
-                <tr>
-                    <td><b th:text="${post.comments.size()} + ' Comments'">Comments</b></td>
-                </tr>
-                <tr th:if="${session.SessionId != null}">
-                    <td>
-                        <div class="new_comment_form">
-
-                            <b>Post a Comment</b><br/>
-                            <textarea id="comment_body" name="comment_body" cols="100" rows="5"/>
-                            <button th:text="Submit" th:onclick="'addComment(\''+ ${post.id.toString()} + '\')'"
-                                    style="float: right;"/>
-
-                        </div>
-                    </td>
-                </tr>
-
-                <tr th:each="c : ${post.comments}">
-                    <td>
-                        <a href="#" th:href="@{/users/profile/{username}/(username=${c.author})}" th:text="${c.author}">Commented
-                            By</a>
-                        <span th:text="' on ' + ${#dates.format(c.date, 'EEE, dd MMM yy')}"/>
-                        <br/><span class="content" th:utext="${c.body}">Comment</span>
-                    </td>
-                </tr>
-            </table>
-
-            <p th:if="${session.SessionId == null}">
-                <i>You must be <a href="users/login.html" th:href="@{/users/login}">logged in</a> to post a comment.</i>
-            </p>
-        </div>
-    </article>
+    </div>
 </div>
 
-
 <div th:id="'post_' + ${editPostForm.id}" th:fragment="editPost">
-    <article>
 
-        <p>Required fields are followed by <strong><abbr title="required">*</abbr></strong>.</p>
+    <p>Required fields are followed by <strong><abbr title="required">*</abbr></strong>.</p>
 
 
-        <h2>Title</h2>
-        <input type="text" id="title" name="title" size="120" th:value="${editPostForm.title}"/>
-        <strong><abbr title="required">*</abbr></strong>
-        <br/>
+    <h2>Title</h2>
+    <input type="text" id="title" name="title" size="120" th:value="${editPostForm.title}"/>
+    <strong><abbr title="required">*</abbr></strong>
+    <br/>
 
-        <h2>Blog Entry</h2>
-        <textarea name="body" id="content" cols="120" rows="20" th:text="${editPostForm.body}"/>
-        <strong><abbr title="required">*</abbr></strong>
-        <br/>
+    <h2>Blog Entry</h2>
+    <textarea name="body" id="content" cols="120" rows="20" th:text="${editPostForm.body}"/>
+    <strong><abbr title="required">*</abbr></strong>
+    <br/>
 
-        <h2>Tags</h2>
-        Separate tags with a comma(,)<br/>
-        <input type="text" name="tags" id="tags" size="120" th:value="${editPostForm.tags}"/>
+    <h2>Tags</h2>
+    Separate tags with a comma(,)<br/>
+    <input type="text" name="tags" id="tags" size="120" th:value="${editPostForm.tags}"/>
 
-        <p>
-            <button th:text="'Save'" th:onclick="'savePost(\''+ ${editPostForm.id.toString()} + '\')'"/>
-        </p>
-
-    </article>
+    <p>
+        <button th:text="'Save'" th:onclick="'savePost(\''+ ${editPostForm.id.toString()} + '\')'"/>
+    </p>
 </div>
 
 <footer th:fragment="site-footer">
