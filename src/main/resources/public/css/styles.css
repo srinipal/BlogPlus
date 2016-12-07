@@ -1,33 +1,35 @@
 body>header {
-background: #eee;
-padding: 5px;
+    background: #eee;
+    padding: 5px;
 }
+
 body>header>a>img, body>header a {
-display: inline-block;
-vertical-align: middle;
-padding: 0px 5px;
-font-size: 1.2em;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0px 5px;
+    font-size: 1.2em;
 }
+
 body>footer {
-background: #eee;
-padding: 5px;
-margin: 10px 0;
-text-align: center;
+    background: #eee;
+    padding: 5px;
+    margin: 10px 0;
+    text-align: center;
 }
 #logged-in-info {
-float: right;
-margin-top: 18px;
+    float: right;
+    margin-top: 18px;
 }
 #logged-in-info form {
-display: inline-block;
-margin-right: 10px;
+    display: inline-block;
+    margin-right: 10px;
 }
 
 body {
-font-family: Verdana, Arial, Helvetica, sans-serif;
-font-size: 11px;
-line-height: 18px;
-color: #333333;;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    line-height: 18px;
+    color: #333333;
 }
 
 body>aside {
@@ -70,7 +72,7 @@ table{
 
 .blogPosts{
     padding-left: 140px;
-    padding-right: 340px;
+    padding-right: 360px;
 }
 
 a {
@@ -81,12 +83,68 @@ a {
     white-space: pre-wrap;
 }
 
-.awesome_icon{
+.postActions{
     font-size: 1.5em;
+}
+
+.postActions .ratingIcon{
+    float: left;
+}
+
+.postActions .editIcon{
+    float: right;
 }
 
 .error_div {
     color: red;
     text-align: center;
     padding: 100px 0;
+}
+
+.commentsTable{
+    width: 100%;
+    background: #eee;
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+.commentsTable .newCommentBody{
+    border: none;
+    width: 100%;
+    -webkit-box-sizing: border-box; /* <=iOS4, <= Android  2.3 */
+    -moz-box-sizing: border-box; /* FF1+ */
+    box-sizing: border-box; /* Chrome, IE8, Opera, Safari 5.1*/
+}
+
+.editPostForm .editPostTitle{
+    width: 97%;
+    -webkit-box-sizing: border-box; /* <=iOS4, <= Android  2.3 */
+    -moz-box-sizing: border-box; /* FF1+ */
+    box-sizing: border-box; /* Chrome, IE8, Opera, Safari 5.1*/
+}
+
+.editPostForm .editPostBody{
+    width: 97%;
+    -webkit-box-sizing: border-box; /* <=iOS4, <= Android  2.3 */
+    -moz-box-sizing: border-box; /* FF1+ */
+    box-sizing: border-box; /* Chrome, IE8, Opera, Safari 5.1*/
+}
+
+.editPostForm .editPostTags{
+    width: 97%;
+    -webkit-box-sizing: border-box; /* <=iOS4, <= Android  2.3 */
+    -moz-box-sizing: border-box; /* FF1+ */
+    box-sizing: border-box; /* Chrome, IE8, Opera, Safari 5.1*/
+}
+
+.newPostForm{
+    padding-left: 140px;
+    padding-right: 360px;
+}
+
+.newPostForm .newPostTitle, .newPostBody, .newPostTags{
+    width: 97%;
+    -webkit-box-sizing: border-box; /* <=iOS4, <= Android  2.3 */
+    -moz-box-sizing: border-box; /* FF1+ */
+    box-sizing: border-box; /* Chrome, IE8, Opera, Safari 5.1*/
 }

@@ -31,14 +31,15 @@
 
     <hr />
 
-    <h2 th:text="${user.id} + '\'s posts'">Posts</h2><br/>
-    <main id="posts">
+
+    <div class="blogPosts" id="posts">
+        <h2 th:text="${user.id} + '\'s posts'">Posts</h2><br/>
         <thblock th:each="post : ${userposts}">
             <div th:replace="user_layout :: post">
             </div>
-            <br/><br/><br/>
+            <br /><br/>
         </thblock>
-    </main>
+    </div>
 
 
     <footer th:replace="user_layout :: site-footer"/>

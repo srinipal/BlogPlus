@@ -46,28 +46,31 @@
     <p>
         <b>Tags: </b><span id="tags" th:text="${post.tagsAsStr}"></span>
 
-        <span class="awesome_icon" th:if="${session.SessionId != null and post.author == session.UserName}">
-            &nbsp;&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"
-                           th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'"></i>
-        </span>
     </p>
-    <div class="awesome_icon" th:if="${session.SessionId != null}">
-        <th:block th:if="${post.author != session.UserName}">
-            <i class="fa fa-thumbs-up" aria-hidden="true"
-               th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.likes}"></i>&nbsp;
-            <i class="fa fa-thumbs-down" aria-hidden="true"
-               th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.dislikes}"></i>
-        </th:block>
-        <th:block th:if="${post.author == session.UserName}">
-            <i class="fa fa-thumbs-up" aria-hidden="true" th:text="${post.likes}"></i>&nbsp;
-            <i class="fa fa-thumbs-down" aria-hidden="true" th:text="${post.dislikes}"></i>
-        </th:block>
+    <div class="postActions" th:if="${session.SessionId != null}">
+        <span class="ratingIcon">
+            <th:block th:if="${post.author != session.UserName}">
+                <i class="fa fa-thumbs-up" aria-hidden="true"
+                   th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.likes}"></i>&nbsp;
+                <i class="fa fa-thumbs-down" aria-hidden="true"
+                   th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.dislikes}"></i>
+            </th:block>
+            <th:block th:if="${post.author == session.UserName}">
+                <i class="fa fa-thumbs-up" aria-hidden="true" th:text="${post.likes}"></i>&nbsp;
+                <i class="fa fa-thumbs-down" aria-hidden="true" th:text="${post.dislikes}"></i>
+            </th:block>
+        </span>
+
+        <span class="editIcon" th:if="${post.author == session.UserName}">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"
+               th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'"></i>
+        </span>
     </div>
-    <br/>
+    <br/><br/>
 
     <div id="comments">
 
-        <table border="1" class="fixed" cellpadding="8" style="background: #eee">
+        <table border="1" class="commentsTable" cellpadding="8">
             <col width="600px"/>
             <tr>
                 <td><b th:text="${post.comments.size()} + ' Comments'">Comments</b></td>
@@ -77,7 +80,7 @@
                     <div class="new_comment_form">
 
                         <b>Post a Comment</b><br/>
-                        <textarea id="comment_body" name="comment_body" cols="80" rows="5"/>
+                        <textarea class="newCommentBody" id="comment_body" name="comment_body" rows="5"/><br/>
                         <button th:text="Submit" th:onclick="'addComment(\''+ ${post.id.toString()} + '\')'"
                                 style="float: right;"/>
 
@@ -101,24 +104,24 @@
     </div>
 </div>
 
-<div th:id="'post_' + ${editPostForm.id}" th:fragment="editPost">
+<div class="editPostForm" th:id="'post_' + ${editPostForm.id}" th:fragment="editPost">
 
     <p>Required fields are followed by <strong><abbr title="required">*</abbr></strong>.</p>
 
 
     <h2>Title</h2>
-    <input type="text" id="title" name="title" size="120" th:value="${editPostForm.title}"/>
+    <input class="editPostTitle" type="text" id="title" name="title" th:value="${editPostForm.title}"/>
     <strong><abbr title="required">*</abbr></strong>
     <br/>
 
     <h2>Blog Entry</h2>
-    <textarea name="body" id="content" cols="120" rows="20" th:text="${editPostForm.body}"/>
+    <textarea class="editPostBody" name="body" id="content" rows="20" th:text="${editPostForm.body}"/>
     <strong><abbr title="required">*</abbr></strong>
     <br/>
 
     <h2>Tags</h2>
     Separate tags with a comma(,)<br/>
-    <input type="text" name="tags" id="tags" size="120" th:value="${editPostForm.tags}"/>
+    <input class="editPostTags" type="text" name="tags" id="tags" size="120" th:value="${editPostForm.tags}"/>
 
     <p>
         <button th:text="'Save'" th:onclick="'savePost(\''+ ${editPostForm.id.toString()} + '\')'"/>
