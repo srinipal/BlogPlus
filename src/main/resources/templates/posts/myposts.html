@@ -10,13 +10,7 @@
 <header th:replace="user_layout :: site-header" />
 
 
-<div class="blogPosts" id="posts">
-    <thblock th:each="post : ${myposts}">
-        <div th:replace="user_layout :: post">
-        </div>
-        <br /><br/>
-    </thblock>
-</div>
+<article th:replace="user_layout :: posts" />
 
 <footer th:replace="user_layout :: site-footer" />
 </body>

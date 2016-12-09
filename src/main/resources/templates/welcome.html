@@ -14,13 +14,8 @@
     <a href="#" th:each="p : ${popularPosts}" th:text="${p.title}" th:href="@{/posts/view/{id}/(id=${p.id})}">Work
         Begins on HTML5.1</a>
 </aside>
-<article class="blogPosts" id="posts">
-    <thblock th:each="post : ${latestPosts}">
-        <div th:replace="user_layout :: post">
-        </div>
-        <br /><br/>
-    </thblock>
-</article>
+
+<article th:replace="user_layout :: posts" />
 
 <footer th:replace="user_layout :: site-footer"/>
 </body>

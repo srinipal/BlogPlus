@@ -137,7 +137,7 @@ public class BlogPostController {
             throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);
         }
         List<BlogPost> myPosts = blogPostDAO.getPostsByAuthor(userName);
-        model.addAttribute("myposts", myPosts);
+        model.addAttribute("posts", myPosts);
         return "posts/myposts";
     }
 

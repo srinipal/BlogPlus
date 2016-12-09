@@ -29,7 +29,7 @@ public class HomePageController {
     public String index(Model model) {
         //Get the latest posts
         Page<BlogPost> latestPosts = blogPostDAO.getLatestPosts();
-        model.addAttribute("latestPosts", latestPosts);
+        model.addAttribute("posts", latestPosts);
 
         //Get the popular posts
         Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts();
@@ -45,7 +45,7 @@ public class HomePageController {
         }
         //Get the latest posts
         Page<BlogPost> latestPosts = blogPostDAO.getLatestPosts();
-        model.addAttribute("latestPosts", latestPosts);
+        model.addAttribute("posts", latestPosts);
 
         //Get the popular posts
         Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts();

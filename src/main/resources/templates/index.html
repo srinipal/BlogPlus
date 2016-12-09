@@ -15,13 +15,7 @@
         Begins on HTML5.1</a>
 </aside>
 
-<article class="blogPosts" id="posts">
-    <thblock th:each="post : ${latestPosts}">
-        <div th:replace="user_layout :: post">
-        </div>
-        <br /><br/>
-    </thblock>
-</article>
+<article th:replace="user_layout :: posts" />
 
 <footer th:replace="guest_layout :: site-footer"/>
 </body>

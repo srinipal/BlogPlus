@@ -147,7 +147,7 @@ public class UserController {
         model.addAttribute("user", user);
 
         List<BlogPost> blogPosts = blogPostDAO.getPostsByAuthor(userName);
-        model.addAttribute("userposts", blogPosts);
+        model.addAttribute("posts", blogPosts);
         return "users/profile";
     }
 
@@ -160,7 +160,7 @@ public class UserController {
         }
         model.addAttribute("user", user);
         List<BlogPost> blogPosts = blogPostDAO.getPostsByAuthor(userName);
-        model.addAttribute("userposts", blogPosts);
+        model.addAttribute("posts", blogPosts);
 
         return "users/profile";
     }
