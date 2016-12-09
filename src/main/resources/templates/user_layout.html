@@ -128,13 +128,22 @@
     </p>
 </div>
 
-<article class="blogPosts" id="posts" th:fragment="posts">
-    <thblock th:each="post : ${posts}">
-        <div th:replace="user_layout :: post">
-        </div>
-        <br /><br/>
-    </thblock>
-</article>
+<div class="blogPosts" id="posts"  th:fragment="posts">
+    <ul id="postList" class="postList" th:fragment="postList">
+        <li  th:each="post : ${posts}">
+            <article>
+                <div id="post" th:replace="user_layout :: post">
+                    Sample Blog Content
+                </div>
+            </article>
+            <br/><br/>
+        </li>
+    </ul>
+</div>
+
+<div th:fragment="noMoreEntries">
+    <p>No more blog posts to be shown</p>
+</div>
 
 <footer th:fragment="site-footer">
     What is Blog Plus?

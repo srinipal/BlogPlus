@@ -107,3 +107,6 @@ function getAllValues(mainDiv){
 function prepareForDisplay(str){
     return str.replace(/<br\s*\/?>/mg, "n");
 }
+
+
+

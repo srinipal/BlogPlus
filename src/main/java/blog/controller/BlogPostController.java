@@ -131,7 +131,21 @@ public class BlogPostController {
     }
 
     @RequestMapping(value="/myposts")
-    public String viewMyPosts(Model model){
+    public String viewMyPosts(Map<String, String> allRequestParams, Model model){
+        Integer nextPage = null;
+
+        //If nextPage parameter is passed then parse that value
+        if(allRequestParams.containsKey("nextPage")){
+            try {
+                nextPage = Integer.parseInt(allRequestParams.get("nextPage"));
+            }
+            catch (NumberFormatException nfe){
+                throw new BadRequestException("The parameter nextPage has to be a number value", HttpStatus.BAD_REQUEST);
+            }
+        }
+        else{//Otherwise default it as 1
+            nextPage = 1;
+        }
         String userName = (String) httpSession.getAttribute("UserName");
         if(userName == null){
             throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);

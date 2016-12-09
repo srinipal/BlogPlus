@@ -49,8 +49,8 @@ public class BlogPostDAO {
         return blogPosts;
     }
 
-    public Page<BlogPost> getLatestPosts(){
-        Page<BlogPost> latestPosts = repository.findAll(new PageRequest(0, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
+    public Page<BlogPost> getLatestPosts(int pageNum){
+        Page<BlogPost> latestPosts = repository.findAll(new PageRequest(pageNum, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
         return latestPosts;
     }
 
