@@ -5,6 +5,9 @@ package blog.model.forms;
  */
 public class EditPostForm {
     private String id;
+    private String title;
+    private String body;
+    private String tags;
 
     public String getId() {
         return id;
@@ -13,10 +16,6 @@ public class EditPostForm {
     public void setId(String id) {
         this.id = id;
     }
-
-    private String title;
-    private String body;
-    private String tags;
 
     public String getTitle() {
         return title;

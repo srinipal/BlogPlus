@@ -10,13 +10,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class User {
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    @Id
+    private String id;
+    private String passwordHash;
+    private String fullName;
+    private String emailAddress;
+
 
     public User(){
 
@@ -27,6 +27,14 @@ public class User {
         this.passwordHash = passwordHash;
         this.fullName = fullName;
         this.emailAddress = emailAddress;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPasswordHash() {
@@ -44,14 +52,6 @@ public class User {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-
-
-
-    @Id
-    private String id;
-    private String passwordHash;
-    private String fullName;
-    private String emailAddress;
 
     public String getEmailAddress() {
         return emailAddress;

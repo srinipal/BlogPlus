@@ -10,6 +10,12 @@ public class BlogPostComment {
     private String author;
     private Date date = new Date();
 
+    public BlogPostComment(String body, String author) {
+
+        this.body = body;
+        this.author = author;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -35,9 +41,4 @@ public class BlogPostComment {
         this.author = author;
     }
 
-    public BlogPostComment(String body, String author) {
-
-        this.body = body;
-        this.author = author;
-    }
 }

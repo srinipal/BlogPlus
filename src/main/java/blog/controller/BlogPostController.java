@@ -150,7 +150,7 @@ public class BlogPostController {
         }
         Page<BlogPost> nextMyPosts = blogPostDAO.getPostsByAuthor(userName, nextPage);
         if(!nextMyPosts.hasContent()){
-            return "user_layout :: noMoreEntries";
+            return "";
         }
         model.addAttribute("posts", nextMyPosts);
         return "user_layout :: postList";

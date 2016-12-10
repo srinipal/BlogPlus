@@ -13,6 +13,21 @@ import java.util.Date;
 import java.util.List;
 
 public class BlogPost {
+
+    @Id
+    private ObjectId id;
+    private String title;
+    private String author;
+    private String body;
+    private List<String> tags = new ArrayList<String>();
+    private List<BlogPostComment> comments = new ArrayList<BlogPostComment>();
+    private Date date = new Date();
+    private int likes = 0;
+    private int dislikes = 0;
+    @Transient
+    private String tagsAsStr;
+
+
     public BlogPost(String title, String author, String body, List<String> tags) {
         this.title = title;
         this.author = author;
@@ -113,17 +128,6 @@ public class BlogPost {
         this.comments = comments;
     }
 
-    @Id
-    private ObjectId id;
-    private String title;
-    private String author;
-    private String body;
-    private List<String> tags = new ArrayList<String>();
-    private List<BlogPostComment> comments = new ArrayList<BlogPostComment>();
-    private Date date = new Date();
-    private int likes = 0;
-    private int dislikes = 0;
-
     public int getLikes() {
         return likes;
     }
@@ -140,8 +144,7 @@ public class BlogPost {
         this.dislikes = dislikes;
     }
 
-    @Transient
-    private String tagsAsStr;
+
 
     public String getTagsAsStr() {
         return CommonUtils.strListToStr(tags);
