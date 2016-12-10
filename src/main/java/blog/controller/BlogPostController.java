@@ -9,6 +9,7 @@ import blog.services.BlogPostDAO;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -130,30 +131,31 @@ public class BlogPostController {
         return "user_layout :: post";
     }
 
-    @RequestMapping(value="/myposts")
-    public String viewMyPosts(Map<String, String> allRequestParams, Model model){
-        Integer nextPage = null;
-
-        //If nextPage parameter is passed then parse that value
-        if(allRequestParams.containsKey("nextPage")){
-            try {
-                nextPage = Integer.parseInt(allRequestParams.get("nextPage"));
-            }
-            catch (NumberFormatException nfe){
-                throw new BadRequestException("The parameter nextPage has to be a number value", HttpStatus.BAD_REQUEST);
-            }
-        }
-        else{//Otherwise default it as 1
-            nextPage = 1;
-        }
+    @RequestMapping(value="myposts")
+    public String viewMyPosts(Model model){
         String userName = (String) httpSession.getAttribute("UserName");
         if(userName == null){
             throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);
         }
-        List<BlogPost> myPosts = blogPostDAO.getPostsByAuthor(userName);
+        Page<BlogPost> myPosts = blogPostDAO.getPostsByAuthor(userName, 0);
         model.addAttribute("posts", myPosts);
         return "posts/myposts";
     }
+
+    @RequestMapping(value="/myposts/{nextPage}", method = RequestMethod.GET)
+    public String viewMyPosts(@PathVariable int nextPage, Model model){
+        String userName = (String) httpSession.getAttribute("UserName");
+        if(userName == null){
+            throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);
+        }
+        Page<BlogPost> nextMyPosts = blogPostDAO.getPostsByAuthor(userName, nextPage);
+        if(!nextMyPosts.hasContent()){
+            return "user_layout :: noMoreEntries";
+        }
+        model.addAttribute("posts", nextMyPosts);
+        return "user_layout :: postList";
+    }
+
 
     @RequestMapping(value="/addComment", method = RequestMethod.POST)
     public String addComment(@RequestParam Map<String,String> allRequestParams, Model model){

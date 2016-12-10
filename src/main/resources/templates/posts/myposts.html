@@ -6,11 +6,50 @@
 </head>
 
 <body>
+<script th:inline="javascript">
 
+    /*<![CDATA[*/
+        var nextPage = 1;
+
+
+        $(document).ready(function() {
+            var win = $(window);
+            var morePostsToRead = true;
+
+            // Each time the user scrolls
+            win.scroll(function() {
+                // End of the document reached?
+                if (($(document).height() - win.height() == win.scrollTop()) && (morePostsToRead == true)) {
+
+                    $('#loading').show();
+
+                    var morePostsUrl = "/posts/myposts/" + nextPage;
+                    $.ajax({
+                        url: morePostsUrl,
+                        dataType: 'html',
+                        success: function(html) {
+                            $('#posts').append(html);
+                            $('#loading').hide();
+                            nextPage += 1;
+                            if(html.indexOf("ul id=\"postList\"") == -1){
+                                morePostsToRead = false;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+    /*]]>*/
+
+</script>
 <header th:replace="user_layout :: site-header" />
 
 
 <article th:replace="user_layout :: posts" />
+
+<div th:replace="user_layout :: loadMoreEntries" />
+
 
 <footer th:replace="user_layout :: site-footer" />
 </body>

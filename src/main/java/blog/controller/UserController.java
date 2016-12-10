@@ -159,12 +159,28 @@ public class UserController {
             throw new BadRequestException("The user profile for " + userName + " doesn't exist", HttpStatus.NOT_FOUND);
         }
         model.addAttribute("user", user);
-        List<BlogPost> blogPosts = blogPostDAO.getPostsByAuthor(userName);
+        Page<BlogPost> blogPosts = blogPostDAO.getPostsByAuthor(userName, 0);
         model.addAttribute("posts", blogPosts);
 
         return "users/profile";
     }
 
+
+    @RequestMapping("/profile/{username}/posts/{nextPage}")
+    public String getMorePosts(@PathVariable("username") String userName, @PathVariable("nextPage") int nextPage, Model model) {
+        String loggedInUserName = (String)httpSession.getAttribute("UserName");
+        User user = userDAO.getUser(userName);
+        if(user == null){
+            throw new BadRequestException("The user profile for " + userName + " doesn't exist", HttpStatus.NOT_FOUND);
+        }
+
+        Page<BlogPost> blogPosts = blogPostDAO.getPostsByAuthor(userName, nextPage);
+        if(!blogPosts.hasContent()){
+            return "user_layout :: noMoreEntries";
+        }
+        model.addAttribute("posts", blogPosts);
+        return "user_layout :: postList";
+    }
 
 
 }

@@ -8,10 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,18 +56,12 @@ public class HomePageController {
         return "welcome";
     }
 
-    @RequestMapping(value = "/morePosts", method = RequestMethod.GET)
-    public String getMorePosts(@RequestParam Map<String, String> allRequestParams, Model model){
-        Integer nextPage = null;
-        try {
-            nextPage = Integer.parseInt(allRequestParams.get("nextPage"));
-        }
-        catch (NumberFormatException nfe){
-            throw new BadRequestException("The parameter nextPage has to be a number value", HttpStatus.BAD_REQUEST);
-        }
+    @RequestMapping(value = "/morePosts/{nextPage}", method = RequestMethod.GET)
+    public String getMorePosts(@PathVariable int nextPage, Model model){
+
         Page<BlogPost> nextPosts = blogPostDAO.getLatestPosts(nextPage);
-        if(nextPosts.getSize() == 0){
-            return "";
+        if(!nextPosts.hasContent()){
+            return "user_layout :: noMoreEntries";
         }
         model.addAttribute("posts", nextPosts);
         return "user_layout :: postList";

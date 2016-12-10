@@ -49,6 +49,11 @@ public class BlogPostDAO {
         return blogPosts;
     }
 
+    public Page<BlogPost> getPostsByAuthor(String userName, int pageNum){
+        Page<BlogPost> blogPosts = repository.findByAuthor(userName, new PageRequest(pageNum, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
+        return blogPosts;
+    }
+
     public Page<BlogPost> getLatestPosts(int pageNum){
         Page<BlogPost> latestPosts = repository.findAll(new PageRequest(pageNum, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
         return latestPosts;

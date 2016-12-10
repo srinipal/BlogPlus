@@ -141,8 +141,13 @@
     </ul>
 </div>
 
-<div th:fragment="noMoreEntries">
-    <p>No more blog posts to be shown</p>
+<div id="noMoreEntries" th:fragment="noMoreEntries">
+    <i>No more blog posts to be shown</i>
+</div>
+
+<div class="blogPosts" id="loading" hidden="true" th:fragment="loadMoreEntries">
+    <img src="../public/img/loading.gif"
+         th:src="@{/img/loading.gif}" alt="Loading…" width="32" height="32"/>
 </div>
 
 <footer th:fragment="site-footer">
