@@ -15,6 +15,44 @@
     <th:block th:replace="guest_layout :: site-header"/>
 </header>
 
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+        var nextPage = 1;
+
+
+        $(document).ready(function() {
+            var win = $(window);
+            var morePostsToRead = true;
+
+            // Each time the user scrolls
+            win.scroll(function() {
+                // End of the document reached?
+                if (($(document).height() - win.height() == win.scrollTop()) && (morePostsToRead == true)) {
+
+                    $('#loading').show();
+                    var tag =  [[${tag}]];
+                    var morePostsUrl = "/blogplus/posts/filter/" + nextPage + "/?tag=" + tag;
+                    $.ajax({
+                        url: morePostsUrl,
+                        dataType: 'html',
+                        success: function(html) {
+                            $('#posts').append(html);
+                            $('#loading').hide();
+                            nextPage += 1;
+                            if(html.indexOf("ul id=\"postList\"") == -1){
+                                morePostsToRead = false;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+    /*]]>*/
+
+</script>
+
 <article th:replace="user_layout :: posts" />
 
 <div th:replace="user_layout :: loadMoreEntries" />

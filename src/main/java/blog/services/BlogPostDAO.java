@@ -26,9 +26,9 @@ public class BlogPostDAO {
         return repository.findById(blogPostId);
     }
 
-    public void createBlogPost(String title, String body, String author, String tags){
+    public BlogPost createBlogPost(String title, String body, String author, String tags){
         BlogPost blogPost = new BlogPost(title, author, body, extractTags(tags));
-        repository.save(blogPost);
+        return repository.save(blogPost);
     }
 
     public BlogPost updateBlogPost(String blogPostId, String title, String body, String author, String tags){

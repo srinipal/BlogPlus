@@ -64,7 +64,7 @@ public class BlogPostController {
     }
 
     @RequestMapping(value="/create", method = RequestMethod.POST)
-    public String createPost(NewPostForm newPostForm, BindingResult bindingResult){
+    public String createPost(NewPostForm newPostForm, BindingResult bindingResult, Model model){
         String userName = (String) httpSession.getAttribute("UserName");
         //If userName is null, indicates that user hasn't logged in
         if(userName == null){
@@ -76,8 +76,9 @@ public class BlogPostController {
         String body = StringEscapeUtils.escapeHtml(newPostForm.getBody());
         String tags = StringEscapeUtils.escapeHtml(newPostForm.getTags());
 
-        blogPostDAO.createBlogPost(title, body, userName, tags);
-        return "redirect:/blogplus/welcome";
+        BlogPost post = blogPostDAO.createBlogPost(title, body, userName, tags);
+        model.addAttribute("post", post);
+        return "posts/view";
     }
 
     /**
@@ -173,12 +174,36 @@ public class BlogPostController {
         return "user_layout :: post";
     }
 
-    @RequestMapping("/filter")
-    public String filterBlogPosts(@RequestParam Map<String, String> allRequestParams, Model model){
-        String tag = allRequestParams.get("tag");
-        Page<BlogPost> filteredPosts = blogPostDAO.getPostsWithTag(tag, 0);
+    @RequestMapping("/filter/{nextPage}")
+    public String filterBlogPostsMore(@PathVariable("nextPage") int nextPage, @RequestParam Map<String, String> allRequestParams, Model model) {
 
-        model.addAttribute("posts", filteredPosts);
+        //If no filter parameters are passed, then throw an error
+        if(allRequestParams.isEmpty()){
+            throw new BadRequestException("Atleast one filter parameter has to be passed", HttpStatus.BAD_REQUEST);
+        }
+
+        String tag = allRequestParams.get("tag");
+
+        Page<BlogPost> posts = null;
+
+        if(tag.isEmpty()){//If tag is not passed or it is empty
+            posts = blogPostDAO.getLatestPosts(nextPage);
+        }
+        else{
+            //trim tag
+            tag = tag.trim();
+            posts = blogPostDAO.getPostsWithTag(tag, nextPage);
+        }
+
+        if(posts == null || !posts.hasContent()){
+            return "user_layout :: noMoreEntries";
+        }
+
+        model.addAttribute("posts", posts);
+
+        //Store tag also in the model
+        model.addAttribute("tag", tag);
+
         return "posts/filteredPosts";
     }
 }
