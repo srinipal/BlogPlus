@@ -23,7 +23,7 @@
 
                         $('#loading').show();
                         var userName =  [[${user.id}]];
-                        var morePostsUrl = "/users/profile/" + userName + "/posts/" + nextPage;
+                        var morePostsUrl = "/blogplus/users/profile/" + userName + "/posts/" + nextPage;
 
                         $.ajax({
                             url: morePostsUrl,

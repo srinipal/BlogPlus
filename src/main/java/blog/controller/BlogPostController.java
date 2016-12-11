@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by srinivas.g on 18/11/16.
  */
 @Controller
-@RequestMapping(value="/posts")
+@RequestMapping(value="/blogplus/posts")
 public class BlogPostController {
 
     @Autowired
@@ -77,7 +77,7 @@ public class BlogPostController {
         String tags = StringEscapeUtils.escapeHtml(newPostForm.getTags());
 
         blogPostDAO.createBlogPost(title, body, userName, tags);
-        return "redirect:/welcome";
+        return "redirect:/blogplus/welcome";
     }
 
     /**

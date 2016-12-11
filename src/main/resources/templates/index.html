@@ -23,7 +23,7 @@
 
                     $('#loading').show();
 
-                    var morePostsUrl = "/morePosts/" + nextPage;
+                    var morePostsUrl = "/blogplus/morePosts/" + nextPage;
 
                     $.ajax({
                         url: morePostsUrl,
@@ -50,7 +50,7 @@
 
 <aside>
     <h2>New and Popular Posts</h2>
-    <a href="#" th:each="p : ${popularPosts}" th:text="${p.title}" th:href="@{/posts/view/{id}/(id=${p.id})}">Work
+    <a href="#" th:each="p : ${popularPosts}" th:text="${p.title}" th:href="@{/blogplus/posts/view/{id}/(id=${p.id})}">Work
         Begins on HTML5.1</a>
 </aside>
 

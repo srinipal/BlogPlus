@@ -1,5 +1,5 @@
 function upVotePost(post_id){
-    var url = '/posts/upvote';
+    var url = '/blogplus/posts/upvote';
     //construct div id
     var divId = "#" + "post_" + post_id;
     var post_info = {"PostId":String(post_id)};
@@ -7,7 +7,7 @@ function upVotePost(post_id){
 }
 
 function downVotePost(post_id){
-    var url = '/posts/downvote';
+    var url = '/blogplus/posts/downvote';
     //construct div id
     var divId = "#" + "post_" + post_id;
     var post_info = {"PostId":String(post_id)};
@@ -30,7 +30,7 @@ function preparePostEditForm(post_id){
         "PostContent" : postContent
     }
 
-    var url = "/posts/edit"
+    var url = "/blogplus/posts/edit"
     $(postDivId).load(url, post_info)
 }
 
@@ -65,7 +65,7 @@ function savePost(post_id){
         "PostContent" : postContent
     };
 
-    var url = "/posts/save"
+    var url = "/blogplus/posts/save"
     $(postDivId).load(url, post_info)
 }
 
@@ -86,7 +86,7 @@ function addComment(post_id){
         "CommentBody" : commentBody
     };
 
-    var url = "/posts/addComment";
+    var url = "/blogplus/posts/addComment";
     $(postDivId).load(url, post_info);
 }
 

@@ -26,7 +26,7 @@ import java.util.List;
  * Created by srinivas.g on 18/11/16.
  */
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/blogplus/users")
 public class UserController {
 
     @Autowired
@@ -92,7 +92,7 @@ public class UserController {
         httpSession.setAttribute("UserName", userName);
         //Add SessionId as session attribute
         httpSession.setAttribute("SessionId", sessionId);
-        return "redirect:/welcome";
+        return "redirect:/blogplus/welcome";
     }
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
@@ -118,7 +118,7 @@ public class UserController {
             throw new BadRequestException("The username or password is incorrect", HttpStatus.UNAUTHORIZED);
         }
 
-        return "redirect:/welcome";
+        return "redirect:/blogplus/welcome";
     }
 
     @RequestMapping(value="/logout")
@@ -130,7 +130,7 @@ public class UserController {
         //TODO: end the session here
         sessionDAO.endSession(sessionId);
         httpSession.invalidate();
-        return "redirect:/";
+        return "redirect:/blogplus/";
     }
 
     @RequestMapping(value="/profile")

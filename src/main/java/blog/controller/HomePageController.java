@@ -18,6 +18,7 @@ import java.util.Map;
  * Created by srinivas.g on 17/11/16.
  */
 @Controller
+@RequestMapping(value="/blogplus")
 public class HomePageController {
 
     @Autowired
@@ -28,7 +29,7 @@ public class HomePageController {
      * @param model
      * @return
      */
-    @RequestMapping("/")
+    @RequestMapping(value={"/", ""})
     public String index(Model model) {
         //Get the latest posts
         Page<BlogPost> latestPosts = blogPostDAO.getLatestPosts(0);

@@ -10,10 +10,10 @@
 </head>
 <body>
 <header th:fragment="site-header">
-    <a href="index.html" th:href="@{/}"><img src="../public/img/blog_logo.jpg" th:src="@{/img/blog_logo.jpg}"/></a>
-    <a href="index.html" th:href="@{/}">Home</a>
-    <a href="users/login.html" th:href="@{/users/login}">Login</a>
-    <a href="users/register.html" th:href="@{/users/register}">Register</a>
+    <a href="index.html" th:href="@{/blogplus}"><img src="../public/img/blog_logo.jpg" th:src="@{/img/blog_logo.jpg}"/></a>
+    <a href="index.html" th:href="@{/blogplus}">Home</a>
+    <a href="users/login.html" th:href="@{/blogplus/users/login}">Login</a>
+    <a href="users/register.html" th:href="@{/blogplus/users/register}">Register</a>
     <div id="logged-in-info"><span>Hello, <b>Guest</b></span>
     </div>
 </header>
