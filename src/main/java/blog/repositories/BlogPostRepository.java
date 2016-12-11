@@ -25,4 +25,6 @@ public interface BlogPostRepository extends MongoRepository<BlogPost, ObjectId>,
     public List<BlogPost> findByAuthorOrderByDateDesc(String userName);
 
     Page<BlogPost> findByAuthor(String userName, Pageable pageable);
+
+    Page<BlogPost> findByTags(String tag, Pageable pageable);
 }

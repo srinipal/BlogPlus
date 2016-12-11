@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="user_layout :: site-head">
+    <title>Your Posts</title>
+</head>
+
+
+<body>
+
+<header th:if="${session.SessionId != null}">
+    <th:block th:replace="user_layout :: site-header"/>
+</header>
+<header th:if="${session.SessionId == null}">
+    <th:block th:replace="guest_layout :: site-header"/>
+</header>
+
+<article th:replace="user_layout :: posts" />
+
+<div th:replace="user_layout :: loadMoreEntries" />
+
+
+<footer th:replace="user_layout :: site-footer" />
+</body>
+
+</html>

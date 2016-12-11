@@ -74,11 +74,15 @@ public class BlogPostDAO {
      *
      * @return
      */
-    public Page<BlogPost> getPopularPosts(){
-        Page<BlogPost> popularPosts = repository.findAll(new PageRequest(0, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "likes"), new Sort.Order(Sort.Direction.ASC, "dislikes"), new Sort.Order(Sort.Direction.DESC, "date"))));
+    public Page<BlogPost> getPopularPosts(int pageNum){
+        Page<BlogPost> popularPosts = repository.findAll(new PageRequest(pageNum, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "likes"), new Sort.Order(Sort.Direction.ASC, "dislikes"), new Sort.Order(Sort.Direction.DESC, "date"))));
         return popularPosts;
     }
 
+    public Page<BlogPost> getPostsWithTag(String tag, int pageNum){
+        Page<BlogPost> blogPosts = repository.findByTags(tag, new PageRequest(pageNum, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
+        return blogPosts;
+    }
 
     // tags the tags string and put it into an array
     private static ArrayList<String> extractTags(String tags) {

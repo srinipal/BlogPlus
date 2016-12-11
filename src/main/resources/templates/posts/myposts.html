@@ -5,7 +5,12 @@
     <title>Your Posts</title>
 </head>
 
+
+
 <body>
+
+<header th:replace="user_layout :: site-header" />
+
 <script th:inline="javascript">
 
     /*<![CDATA[*/
@@ -43,7 +48,6 @@
     /*]]>*/
 
 </script>
-<header th:replace="user_layout :: site-header" />
 
 
 <article th:replace="user_layout :: posts" />

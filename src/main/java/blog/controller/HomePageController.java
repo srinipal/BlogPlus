@@ -29,14 +29,14 @@ public class HomePageController {
      * @param model
      * @return
      */
-    @RequestMapping(value={"/", ""})
+    @RequestMapping(value="")
     public String index(Model model) {
         //Get the latest posts
         Page<BlogPost> latestPosts = blogPostDAO.getLatestPosts(0);
         model.addAttribute("posts", latestPosts);
 
         //Get the popular posts
-        Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts();
+        Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts(0);
         model.addAttribute("popularPosts", popularPosts);
         return "index";
     }
@@ -52,7 +52,7 @@ public class HomePageController {
         model.addAttribute("posts", latestPosts);
 
         //Get the popular posts
-        Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts();
+        Page<BlogPost> popularPosts = blogPostDAO.getPopularPosts(0);
         model.addAttribute("popularPosts", popularPosts);
         return "welcome";
     }

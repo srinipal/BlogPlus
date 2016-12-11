@@ -173,4 +173,12 @@ public class BlogPostController {
         return "user_layout :: post";
     }
 
+    @RequestMapping("/filter")
+    public String filterBlogPosts(@RequestParam Map<String, String> allRequestParams, Model model){
+        String tag = allRequestParams.get("tag");
+        Page<BlogPost> filteredPosts = blogPostDAO.getPostsWithTag(tag, 0);
+
+        model.addAttribute("posts", filteredPosts);
+        return "posts/filteredPosts";
+    }
 }

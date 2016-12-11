@@ -6,6 +6,9 @@
 </head>
 
 <body>
+
+<header th:replace="guest_layout :: site-header"/>
+
 <script th:inline="javascript">
 
     /*<![CDATA[*/
@@ -46,7 +49,6 @@
 
 </script>
 
-<header th:replace="guest_layout :: site-header"/>
 
 <aside>
     <h2>New and Popular Posts</h2>
