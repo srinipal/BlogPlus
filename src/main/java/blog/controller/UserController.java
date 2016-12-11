@@ -28,7 +28,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-    //private final UserDAO userDAO = new UserDAO();
 
     @Autowired
     private UserRepository userRepository;
@@ -146,7 +145,7 @@ public class UserController {
         }
         model.addAttribute("user", user);
 
-        List<BlogPost> blogPosts = blogPostDAO.getPostsByAuthor(userName);
+        Page<BlogPost> blogPosts = blogPostDAO.getPostsByAuthor(userName, 0);
         model.addAttribute("posts", blogPosts);
         return "users/profile";
     }
@@ -182,5 +181,30 @@ public class UserController {
         return "user_layout :: postList";
     }
 
+
+    @RequestMapping(value="/myposts")
+    public String viewMyPosts(Model model){
+        String userName = (String) httpSession.getAttribute("UserName");
+        if(userName == null){
+            throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);
+        }
+        Page<BlogPost> myPosts = blogPostDAO.getPostsByAuthor(userName, 0);
+        model.addAttribute("posts", myPosts);
+        return "posts/myposts";
+    }
+
+    @RequestMapping(value="/myposts/{nextPage}", method = RequestMethod.GET)
+    public String viewMyPosts(@PathVariable int nextPage, Model model){
+        String userName = (String) httpSession.getAttribute("UserName");
+        if(userName == null){
+            throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);
+        }
+        Page<BlogPost> nextMyPosts = blogPostDAO.getPostsByAuthor(userName, nextPage);
+        if(!nextMyPosts.hasContent()){
+            return "user_layout :: noMoreEntries";
+        }
+        model.addAttribute("posts", nextMyPosts);
+        return "user_layout :: postList";
+    }
 
 }

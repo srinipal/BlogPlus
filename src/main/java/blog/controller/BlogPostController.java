@@ -131,32 +131,6 @@ public class BlogPostController {
         return "user_layout :: post";
     }
 
-    @RequestMapping(value="myposts")
-    public String viewMyPosts(Model model){
-        String userName = (String) httpSession.getAttribute("UserName");
-        if(userName == null){
-            throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);
-        }
-        Page<BlogPost> myPosts = blogPostDAO.getPostsByAuthor(userName, 0);
-        model.addAttribute("posts", myPosts);
-        return "posts/myposts";
-    }
-
-    @RequestMapping(value="/myposts/{nextPage}", method = RequestMethod.GET)
-    public String viewMyPosts(@PathVariable int nextPage, Model model){
-        String userName = (String) httpSession.getAttribute("UserName");
-        if(userName == null){
-            throw new RestrictedAccessException("You must be logged in to access this page", HttpStatus.UNAUTHORIZED);
-        }
-        Page<BlogPost> nextMyPosts = blogPostDAO.getPostsByAuthor(userName, nextPage);
-        if(!nextMyPosts.hasContent()){
-            return "";
-        }
-        model.addAttribute("posts", nextMyPosts);
-        return "user_layout :: postList";
-    }
-
-
     @RequestMapping(value="/addComment", method = RequestMethod.POST)
     public String addComment(@RequestParam Map<String,String> allRequestParams, Model model){
         String userName = (String) httpSession.getAttribute("UserName");

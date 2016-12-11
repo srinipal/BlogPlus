@@ -41,7 +41,7 @@ public class BlogPostDAO {
         return blogPost;
     }
 
-    public List<BlogPost> getPostsByAuthor(String userName){
+    public List<BlogPost> getAllPostsByAuthor(String userName){
         List<BlogPost> blogPosts = repository.findByAuthorOrderByDateDesc(userName);
         if(blogPosts == null){
             blogPosts = new ArrayList<BlogPost>();
@@ -49,16 +49,31 @@ public class BlogPostDAO {
         return blogPosts;
     }
 
+    /**
+     *
+     * @param userName
+     * @param pageNum
+     * @return
+     */
     public Page<BlogPost> getPostsByAuthor(String userName, int pageNum){
         Page<BlogPost> blogPosts = repository.findByAuthor(userName, new PageRequest(pageNum, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
         return blogPosts;
     }
 
+    /**
+     *
+     * @param pageNum
+     * @return
+     */
     public Page<BlogPost> getLatestPosts(int pageNum){
         Page<BlogPost> latestPosts = repository.findAll(new PageRequest(pageNum, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "date"))));
         return latestPosts;
     }
 
+    /**
+     *
+     * @return
+     */
     public Page<BlogPost> getPopularPosts(){
         Page<BlogPost> popularPosts = repository.findAll(new PageRequest(0, 10, new Sort(new Sort.Order(Sort.Direction.DESC, "likes"), new Sort.Order(Sort.Direction.ASC, "dislikes"), new Sort.Order(Sort.Direction.DESC, "date"))));
         return popularPosts;
