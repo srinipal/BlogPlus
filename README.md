@@ -1,6 +1,8 @@
 # BlogPlus
 
-BlogPlus is a simple and lightweight blogging platform built using Spring framework, jQuery and MongoDB that provides the following features:
+Blog plus is a simple and light weight blogging platform built using Spring framework, jQuery and MongoDB which provides all the features that you expect in a blogging platform in the most intuitive and uncomplicated way. It follows the "inline edit" design pattern which lets users edit their posts in-place without having to navigate to a new web page. Similarly, the users can like/dislike posts, post their comments on existing posts, all in-place. All this is achieved by asynchronous AJAX requests made in the background which provide faster response to the user input while also providing a seamless user experience. In addition, the application also provides an infinte scrolling feature which enables users to potentially scroll through all the blog posts in the different views(home page, user profile page, e.t.c.,) that are presented. 
+
+Following are the list of features provided:
 
 - [X] User registration
 - [X] Authentication
@@ -11,7 +13,6 @@ BlogPlus is a simple and lightweight blogging platform built using Spring framew
 - [X] Comment on a blog post
 - [X] Like or Dislike a blog post
 - [X] View the latest and most popular posts in home page
-- [X] View the posts created by a user
 - [X] Add tags to an existing post
 - [x] View posts created by a particular user
 
