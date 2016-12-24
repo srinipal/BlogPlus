@@ -52,7 +52,7 @@
 
             <span id="tags" th:text="${post.tagsAsStr}" hidden="true"></span>
 
-            <a th:each="tag : ${post.tags}" th:href="@{/blogplus/posts/filter/0/?tag={tag}(tag=${tag})}" th:text="${tag} + ', '">tag</a>
+            <a th:each="tag : ${post.tags}" th:href="@{/blogplus/posts/filter/?tag={tag}(tag=${tag})}" th:text="${tag} + ', '">tag</a>
             <span class="postActions" th:if="${post.author == session.UserName}">
                 <i class="fa fa-plus-circle" aria-hidden="true" th:onclick="'prepareAddTagForm(' +
                                                                             '\'' + ${post.id.toString()} + '\'' + ',' +

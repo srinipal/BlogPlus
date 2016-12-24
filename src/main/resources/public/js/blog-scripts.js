@@ -4,6 +4,21 @@ const ADD_TAG_FORM = '<h2>Tags</h2>' +
                      '<p><button onclick="updateTags(\'<%= POST_ID %>\')">Save</button></p>'
 
 
+
+const EDIT_TAG_FORM = '<div class="editPostForm" id="post_<%= POST_ID %>" >' +
+                      '    <p>Required fields are followed by <strong><abbr title="required">*</abbr></strong>.</p>' +
+                      '    <h2>Title<strong><abbr title="required">*</abbr></strong></h2>' +
+                      '    <input class="editPostTitle" type="text" id="title" name="title" value="<%= POST_TITLE %>"/>' +
+                      '    <br/>' +
+                      '    <h2>Blog Entry<strong><abbr title="required">*</abbr></strong></h2>' +
+                      '    <textarea class="editPostBody" name="body" id="content" rows="20"><%= POST_CONTENT %></textarea>' +
+                      '    <br/>' +
+                      '    <h2>Tags</h2>' +
+                      '    Separate tags with a comma(,)<br/>' +
+                      '    <input class="editPostTags" type="text" name="tags" id="tags" value="<%= POST_TAGS %>"/>' +
+                      '    <p><button onclick="savePost(\'<%= POST_ID %>\')">Save</button></p>' +
+                      '</div>'
+
 /**
     up-votes a blog post
 **/
@@ -39,15 +54,9 @@ function preparePostEditForm(postId){
     var postTags = $(postDivId).find('#tags').text();
     var postContent = $(postDivId).find('#content').text();
 
-    var postInfo = {
-        "PostId" : postId,
-        "PostTitle" : postTitle,
-        "PostTags" : postTags,
-        "PostContent" : postContent
-    }
-
-    var url = "/blogplus/posts/edit"
-    $(postDivId).load(url, postInfo)
+    var editPostTemplate = _.template(EDIT_TAG_FORM)
+    var editPostHTML = editPostTemplate({POST_ID : postId, POST_TITLE : postTitle, POST_CONTENT : postContent, POST_TAGS : postTags})
+    $(postDivId).html(editPostHTML)
 }
 
 /**

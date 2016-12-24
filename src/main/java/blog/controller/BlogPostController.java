@@ -3,7 +3,6 @@ package blog.controller;
 import blog.common.exceptions.BadRequestException;
 import blog.common.exceptions.RestrictedAccessException;
 import blog.model.BlogPost;
-import blog.model.forms.EditPostForm;
 import blog.model.forms.NewPostForm;
 import blog.services.BlogPostDAO;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -17,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,31 +78,6 @@ public class BlogPostController {
         model.addAttribute("post", post);
         return "posts/view";
     }
-
-    /**
-     * Prepare Blog Post edit form which will be used for submitting blog post update
-     * @param allRequestParams
-     * @param model
-     * @return
-     */
-    @RequestMapping(value="/edit", method = RequestMethod.POST)
-    public String prepareEdit(@RequestParam  Map<String, String> allRequestParams, Model model){
-        String userName = (String) httpSession.getAttribute("UserName");
-        //If userName is null, indicates that user hasn't logged in
-        if(userName == null){
-            throw new RestrictedAccessException("A blog post can only be edited by a registered user", HttpStatus.UNAUTHORIZED);
-        }
-        EditPostForm editPostForm = new EditPostForm();
-
-        editPostForm.setId(allRequestParams.get("PostId"));
-        editPostForm.setBody(allRequestParams.get("PostContent"));
-        editPostForm.setTitle(allRequestParams.get("PostTitle"));
-        editPostForm.setTags(allRequestParams.get("PostTags"));
-
-        model.addAttribute("editPostForm", editPostForm);
-        return "user_layout :: editPost";
-    }
-
 
     /**
      * Save the values from blog Post to the corresponding blog entry in DB
@@ -192,6 +165,35 @@ public class BlogPostController {
         return "user_layout :: post";
     }
 
+    @RequestMapping("/filter")
+    public String filterBlogPosts(@RequestParam Map<String, String> allRequestParams, Model model) {
+
+        //If no filter parameters are passed, then throw an error
+        if(allRequestParams.isEmpty()){
+            throw new BadRequestException("Atleast one filter parameter has to be passed", HttpStatus.BAD_REQUEST);
+        }
+
+        String tag = allRequestParams.get("tag");
+
+        Page<BlogPost> posts = null;
+
+        if(tag.isEmpty()){//If tag is not passed or it is empty
+            posts = blogPostDAO.getLatestPosts(0);
+        }
+        else{
+            //trim tag
+            tag = tag.trim();
+            posts = blogPostDAO.getPostsWithTag(tag, 0);
+        }
+
+        model.addAttribute("posts", posts);
+
+        //Store tag also in the model
+        model.addAttribute("tag", tag);
+
+        return "posts/filteredPosts";
+    }
+
     @RequestMapping("/filter/{nextPage}")
     public String filterBlogPostsMore(@PathVariable("nextPage") int nextPage, @RequestParam Map<String, String> allRequestParams, Model model) {
 
@@ -222,6 +224,7 @@ public class BlogPostController {
         //Store tag also in the model
         model.addAttribute("tag", tag);
 
-        return "posts/filteredPosts";
+        return "user_layout :: postList";
     }
+
 }
