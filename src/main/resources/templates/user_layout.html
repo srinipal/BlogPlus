@@ -6,7 +6,7 @@
     <link rel="icon" href="../public/img/blog_icon.ico" th:href="@{/img/blog_icon.ico}"/>
     <script src="../public/js/jquery-3.1.1.min.js" th:src="@{/js/jquery.js}"></script>
     <script src="../public/js/blog-scripts.js" th:src="@{/js/blog-scripts.js}"></script>
-    <script src="../public/js/underscore-min.js" th:src="@{/js/underscore-min.js}"></script>
+    <script src="../public/js/underscore.js" th:src="@{/js/underscore.js}"></script>
 
     <meta th:include="this :: head" th:remove="tag"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -57,7 +57,8 @@
                 <i class="fa fa-plus-circle" aria-hidden="true" th:onclick="'prepareAddTagForm(' +
                                                                             '\'' + ${post.id.toString()} + '\'' + ',' +
                                                                              '\'' + ${post.tagsAsStr} + '\'' +
-                                                                             ')'"></i>
+                                                                             ')'">
+                </i>
             </span>
         </p>
     </div>
