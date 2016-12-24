@@ -41,6 +41,16 @@ public class BlogPostDAO {
         return blogPost;
     }
 
+    public BlogPost updateTags(String blogPostId, String author, String tags){
+        ObjectId id = new ObjectId(blogPostId);
+        //update the blog post first
+        repository.updatePost(id, extractTags(tags), author);
+
+        //Get the updated blog post from db
+        BlogPost blogPost = repository.findById(id);
+        return blogPost;
+    }
+
     public List<BlogPost> getAllPostsByAuthor(String userName){
         List<BlogPost> blogPosts = repository.findByAuthorOrderByDateDesc(userName);
         if(blogPosts == null){

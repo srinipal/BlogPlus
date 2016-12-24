@@ -2,3 +2,5 @@
 .idea/
 jquery.js
 *.iml
+target/
+underscore-min.js

@@ -66,4 +66,23 @@ public class BlogPostRepositoryImpl implements BlogPostCustomRepo{
 
         mongoTemplate.updateFirst(searchQuery, update, BlogPost.class);
     }
+
+    @Override
+    public void updatePost(ObjectId postId, List<String> tags, String author) {
+        //query construction
+        Query searchQuery = new Query();
+        searchQuery.addCriteria(Criteria.where("id").is(postId));
+        searchQuery.addCriteria(Criteria.where("author").is(author));
+
+
+        searchQuery.fields().include("title");
+        searchQuery.fields().include("body");
+        searchQuery.fields().include("tags");
+
+        //Update construction
+        Update update = new Update();
+        update.set("tags", tags);
+
+        mongoTemplate.updateFirst(searchQuery, update, BlogPost.class);
+    }
 }

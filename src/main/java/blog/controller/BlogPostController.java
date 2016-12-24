@@ -127,7 +127,7 @@ public class BlogPostController {
         String tags = StringEscapeUtils.escapeHtml(allRequestParams.get("PostTags"));
 
 
-        BlogPost blogPost = blogPostDAO.updateBlogPost(postId,postTitle,postContent,userName, tags);
+        BlogPost blogPost = blogPostDAO.updateBlogPost(postId, postTitle, postContent, userName, tags);
         model.addAttribute("post", blogPost);
         return "user_layout :: post";
     }
@@ -145,6 +145,24 @@ public class BlogPostController {
         blogPostDAO.addComment(postId, userName, commentBody);
 
         BlogPost blogPost = blogPostDAO.getBlogPost(new ObjectId(postId));
+        model.addAttribute("post", blogPost);
+        return "user_layout :: post";
+    }
+
+    @RequestMapping(value="/updateTags", method = RequestMethod.POST)
+    public String updateTags(@RequestParam Map<String,String> allRequestParams, Model model){
+        String userName = (String) httpSession.getAttribute("UserName");
+        //If userName is null, indicates that user hasn't logged in
+        if(userName == null){
+            throw new RestrictedAccessException("A blog post can only be edited by a registered user", HttpStatus.UNAUTHORIZED);
+        }
+
+        //escaping html before saving to database
+        String postId = allRequestParams.get("PostId");
+        String tags = StringEscapeUtils.escapeHtml(allRequestParams.get("PostTags"));
+
+
+        BlogPost blogPost = blogPostDAO.updateTags(postId, userName, tags);
         model.addAttribute("post", blogPost);
         return "user_layout :: post";
     }

@@ -1,44 +1,75 @@
-function upVotePost(post_id){
+const ADD_TAG_FORM = '<h2>Tags</h2>' +
+                     'Separate tags with a comma(,)<br/>' +
+                     '<input class="editPostTags" type="text" name="tags" id="tags" value="<%= TAGS %>" />' +
+                     '<p><button onclick="updateTags(\'<%= POST_ID %>\')">Save</button></p>'
+
+
+/**
+    up-votes a blog post
+**/
+function upVotePost(postId){
     var url = '/blogplus/posts/upvote';
     //construct div id
-    var divId = "#" + "post_" + post_id;
-    var post_info = {"PostId":String(post_id)};
-    $(divId).load(url, post_info);
+    var divId = "#" + "post_" + postId;
+    var postInfo = {"PostId":String(postId)};
+    $(divId).load(url, postInfo);
+
 }
 
-function downVotePost(post_id){
+/**
+    down-votes a blog post
+**/
+function downVotePost(postId){
     var url = '/blogplus/posts/downvote';
     //construct div id
-    var divId = "#" + "post_" + post_id;
-    var post_info = {"PostId":String(post_id)};
-    $(divId).load(url, post_info);
+    var divId = "#" + "post_" + postId;
+    var postInfo = {"PostId":String(postId)};
+    $(divId).load(url, postInfo);
 }
 
-function preparePostEditForm(post_id){
+/**
+    Prepares and loads an edit form for editing a blog post
+**/
+function preparePostEditForm(postId){
 
-    var postDivId = "#" + "post_" + post_id;
+    var postDivId = "#" + "post_" + postId;
 
-    var postId = String(post_id);
+    postId = String(postId);
     var postTitle = $(postDivId).find('#title').text();
     var postTags = $(postDivId).find('#tags').text();
     var postContent = $(postDivId).find('#content').text();
 
-    var post_info = {
-        "PostId" : post_id,
+    var postInfo = {
+        "PostId" : postId,
         "PostTitle" : postTitle,
         "PostTags" : postTags,
         "PostContent" : postContent
     }
 
     var url = "/blogplus/posts/edit"
-    $(postDivId).load(url, post_info)
+    $(postDivId).load(url, postInfo)
 }
 
+/**
+    Prepares and loads an add tag form for adding tags to a blog post
+**/
+function prepareAddTagForm(postId, tags){
+    var postDivId = "#" + "post_" + postId;
+    var tagsDivId = postDivId + " #tagSection";
+    var addTagTemplate = _.template(ADD_TAG_FORM)
+    var addTagHTML = addTagTemplate({TAGS : tags, POST_ID : postId})
 
-function savePost(post_id){
-    var postDivId = "#" + "post_" + post_id;
+    //replace inner html
+    $(tagsDivId).html(addTagHTML);
+}
 
-    var postId = String(post_id);
+/**
+    Updates the title/content/tags of a blog post in database
+**/
+function savePost(postId){
+    var postDivId = "#" + "post_" + postId;
+
+    postId = String(postId);
 
     var postContent = $(postDivId).find('#content').val();
     //trim and validate if comment is provided
@@ -58,19 +89,22 @@ function savePost(post_id){
 
     var postTags = $(postDivId + " input[name=tags]").val();
 
-    var post_info = {
-        "PostId" : post_id,
+    var postInfo = {
+        "PostId" : postId,
         "PostTitle" : postTitle,
         "PostTags" : postTags,
         "PostContent" : postContent
     };
 
     var url = "/blogplus/posts/save"
-    $(postDivId).load(url, post_info)
+    $(postDivId).load(url, postInfo)
 }
 
-function addComment(post_id){
-    var postDivId = "#" + "post_" + post_id;
+/**
+    adds comment to a blog post
+**/
+function addComment(postId){
+    var postDivId = "#" + "post_" + postId;
 
     var commentBody = $(postDivId + " :input[name=comment_body]").val();
 
@@ -81,13 +115,28 @@ function addComment(post_id){
         return;
     }
 
-    var post_info = {
-        "PostId" : post_id,
+    var postInfo = {
+        "PostId" : postId,
         "CommentBody" : commentBody
     };
 
     var url = "/blogplus/posts/addComment";
-    $(postDivId).load(url, post_info);
+    $(postDivId).load(url, postInfo);
+}
+
+/**
+    Updates the tags of a blog post in database
+**/
+function updateTags(postId){
+    var postDivId = "#" + "post_" + postId;
+    var postTags = $(postDivId + " #tagSection input[name=tags]").val();
+    var postInfo = {
+        "PostId" : postId,
+        "PostTags" : postTags
+    };
+
+    var url = "/blogplus/posts/updateTags"
+    $(postDivId).load(url, postInfo)
 }
 
 function getAllValues(mainDiv){

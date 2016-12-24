@@ -6,6 +6,8 @@
     <link rel="icon" href="../public/img/blog_icon.ico" th:href="@{/img/blog_icon.ico}"/>
     <script src="../public/js/jquery-3.1.1.min.js" th:src="@{/js/jquery.js}"></script>
     <script src="../public/js/blog-scripts.js" th:src="@{/js/blog-scripts.js}"></script>
+    <script src="../public/js/underscore-min.js" th:src="@{/js/underscore-min.js}"></script>
+
     <meta th:include="this :: head" th:remove="tag"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 </head>
@@ -32,8 +34,9 @@
 <!--every post displayed in application follows this standard-->
 
 <div th:id="'post_' + ${post.id}" th:fragment="post">
-    <a href="#" th:href="@{/blogplus/posts/view/{id}/(id=${post.id})}"><h2 id="title" class="title" th:text="${post.title}">
-        Post Title</h2></a>
+    <a href="#" th:href="@{/blogplus/posts/view/{id}/(id=${post.id})}">
+        <h2 id="title" class="title" th:text="${post.title}">Post Title</h2>
+    </a>
     <div id="posted_info" class="date">
         <i>Created on</i>
         <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">22-May-2016</span>
@@ -50,8 +53,11 @@
             <span id="tags" th:text="${post.tagsAsStr}" hidden="true"></span>
 
             <a th:each="tag : ${post.tags}" th:href="@{/blogplus/posts/filter/0/?tag={tag}(tag=${tag})}" th:text="${tag} + ', '">tag</a>
-            <span class="postActions">
-                <i class="fa fa-plus-circle" aria-hidden="true" th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'"></i>
+            <span class="postActions" th:if="${post.author == session.UserName}">
+                <i class="fa fa-plus-circle" aria-hidden="true" th:onclick="'prepareAddTagForm(' +
+                                                                            '\'' + ${post.id.toString()} + '\'' + ',' +
+                                                                             '\'' + ${post.tagsAsStr} + '\'' +
+                                                                             ')'"></i>
             </span>
         </p>
     </div>
@@ -129,7 +135,7 @@
 
     <h2>Tags</h2>
     Separate tags with a comma(,)<br/>
-    <input class="editPostTags" type="text" name="tags" id="tags" size="120" th:value="${editPostForm.tags}"/>
+    <input class="editPostTags" type="text" name="tags" id="tags" th:value="${editPostForm.tags}"/>
 
     <p>
         <button th:text="'Save'" th:onclick="'savePost(\''+ ${editPostForm.id.toString()} + '\')'"/>

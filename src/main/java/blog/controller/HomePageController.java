@@ -45,7 +45,7 @@ public class HomePageController {
     public String welcome(@SessionAttribute(value = "SessionId", required = false)String sessionId, Model model) {
         //if SessionId is null redirect to index poage
         if(sessionId == null){
-            return "redirect:/";
+            return "redirect:/blogplus/";
         }
         //Get the latest posts
         Page<BlogPost> latestPosts = blogPostDAO.getLatestPosts(0);

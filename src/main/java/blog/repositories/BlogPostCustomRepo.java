@@ -34,4 +34,6 @@ public interface BlogPostCustomRepo {
     public void downVotePost(ObjectId postId);
 
     public void updatePost(ObjectId postId, String postTitle, String postContent, List<String> tags, String author);
+
+    public void updatePost(ObjectId postId, List<String> tags, String author);
 }
