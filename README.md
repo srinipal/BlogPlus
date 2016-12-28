@@ -13,10 +13,9 @@ Following are the list of features provided:
 - [X] Comment on a blog post
 - [X] Like or Dislike a blog post
 - [X] View the latest and most popular posts in home page
-- [X] Add tags to an existing post
 - [x] View posts created by a particular user
 - [X] View posts by tag
-
+- [X] Share post on Facebook and Twitter
 
 
 It also provides a "guest" browsing mode in which guests are provided a subset of above features like:
