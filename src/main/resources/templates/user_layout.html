@@ -54,31 +54,44 @@
 
             <a th:each="tag : ${post.tags}" th:href="@{/blogplus/posts/filter/?tag={tag}(tag=${tag})}" th:text="${tag} + ', '">tag</a>
             <span class="postActions" th:if="${post.author == session.UserName}">
-                <i class="fa fa-plus-circle" aria-hidden="true" th:onclick="'prepareAddTagForm(' +
+                <i class="fa fa-plus-circle" aria-hidden="true" title="Add Tag" th:onclick="'prepareAddTagForm(' +
                                                                             '\'' + ${post.id.toString()} + '\'' + ',' +
                                                                              '\'' + ${post.tagsAsStr} + '\'' +
                                                                              ')'">
                 </i>
             </span>
+
         </p>
     </div>
     <div id="postActions" class="postActions" th:if="${session.SessionId != null}">
-        <span class="ratingIcon">
-            <th:block th:if="${post.author != session.UserName}">
-                <i class="fa fa-thumbs-up" aria-hidden="true"
-                   th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.likes}"></i>&nbsp;
-                <i class="fa fa-thumbs-down" aria-hidden="true"
-                   th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" th:text="${post.dislikes}"></i>
-            </th:block>
-            <th:block th:if="${post.author == session.UserName}">
-                <i class="fa fa-thumbs-up" aria-hidden="true" th:text="${post.likes}"></i>&nbsp;
-                <i class="fa fa-thumbs-down" aria-hidden="true" th:text="${post.dislikes}"></i>
-            </th:block>
+        <span style="float:left;">
+            <span class="ratingIcon">
+                <th:block th:if="${post.author != session.UserName}">
+                    <i class="fa fa-thumbs-up" aria-hidden="true"
+                       th:onclick="'upVotePost(\''+ ${post.id.toString()} + '\')'" title="UpVote" th:text="${post.likes}"></i>&nbsp;
+                    <i class="fa fa-thumbs-down" aria-hidden="true"
+                       th:onclick="'downVotePost(\''+ ${post.id.toString()} + '\')'" title="DownVote" th:text="${post.dislikes}"></i>
+                </th:block>
+                <th:block th:if="${post.author == session.UserName}">
+                    <i class="fa fa-thumbs-up" aria-hidden="true" title="UpVote" th:text="${post.likes}"></i>&nbsp;
+                    <i class="fa fa-thumbs-down" aria-hidden="true" title="DownVote" th:text="${post.dislikes}"></i>
+                </th:block>
+            </span>
         </span>
-
-        <span class="editIcon" th:if="${post.author == session.UserName}">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"
-               th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'"></i>
+        <span style="float: right;">
+            <span class="socialIcon" th:with="postUrl=(${#httpServletRequest.scheme + '://' + #httpServletRequest.serverName + ':' + #httpServletRequest.serverPort + '/blogplus/posts/view/'} + ${post.id})">
+                <a th:href="'https://www.facebook.com/sharer/sharer.php?u=' + ${postUrl}" target="_blank" title="Share on Facebook">
+                    <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                </a>
+                <i class="fa fa-twitter" aria-hidden="true" title="tweet" th:onclick="'tweetTheLink(' +
+                                                                            '\'' + ${postUrl} + '\'' + ',' +
+                                                                             '\'' + ${post.title} + '\'' +
+                                                                             ')'"></i>
+            </span>
+            <span class="editIcon" th:if="${post.author == session.UserName}">
+                <i class="fa fa-pencil-square-o" title="Edit your post" aria-hidden="true"
+                   th:onclick="'preparePostEditForm(\''+ ${post.id.toString()} + '\')'"></i>
+            </span>
         </span>
         <br/>
     </div>

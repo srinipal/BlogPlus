@@ -26,7 +26,7 @@ function upVotePost(postId){
     var url = '/blogplus/posts/upvote';
     //construct div id
     var divId = "#" + "post_" + postId;
-    var postInfo = {"PostId":String(postId)};
+    var postInfo = {"PostId" : String(postId)};
     $(divId).load(url, postInfo);
 
 }
@@ -38,7 +38,7 @@ function downVotePost(postId){
     var url = '/blogplus/posts/downvote';
     //construct div id
     var divId = "#" + "post_" + postId;
-    var postInfo = {"PostId":String(postId)};
+    var postInfo = {"PostId" : String(postId)};
     $(divId).load(url, postInfo);
 }
 
@@ -170,4 +170,10 @@ function prepareForDisplay(str){
 function textAreaAdjust(o) {
   o.style.height = "1px";
   o.style.height = (25+o.scrollHeight)+"px";
+}
+
+
+function tweetTheLink(postUrl, postTitle) {
+    window.open('https://twitter.com/share?url=' + escape(postUrl) + '&text='+postTitle, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+    return false;
 }

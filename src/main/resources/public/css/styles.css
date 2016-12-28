@@ -92,14 +92,6 @@ a {
     font-size: 1.5em;
 }
 
-.postActions .ratingIcon{
-    float: left;
-}
-
-.postActions .editIcon{
-    float: right;
-}
-
 .error_div {
     color: red;
     text-align: center;
